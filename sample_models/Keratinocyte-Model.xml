@@ -1,0 +1,1671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1" level="3" version="1" layout:required="false" render:required="false">
+  <model metaid="COPASI0" id="Keratinocyte_Model" name="Keratinocyte_Model" substanceUnits="substance" timeUnits="time" volumeUnits="volume" areaUnits="area" lengthUnits="length" extentUnits="substance">
+    <listOfUnitDefinitions>
+      <unitDefinition id="length" name="length">
+        <listOfUnits>
+          <unit kind="metre" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area" name="area">
+        <listOfUnits>
+          <unit kind="metre" exponent="2" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume" name="volume">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="-3" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time" name="time">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="3600"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="substance" name="substance">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-6" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment metaid="COPASI1" id="default" name="default" spatialDimensions="3" size="1" units="litre" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species metaid="COPASI2" id="s1" name="Kq" compartment="default" initialConcentration="0.249999961267933" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI3" id="s2" name="Kd" compartment="default" initialConcentration="0.749999883803799" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI4" id="s3" name="Ka" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI5" id="s4" name="Ks" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI6" id="s5" name="Source" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="true"/>
+      <species metaid="COPASI7" id="s6" name="Sink" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="true"/>
+      <species metaid="COPASI8" id="s7" name="Iq" compartment="default" initialConcentration="0.999999845071731" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI9" id="s8" name="Ia" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI10" id="s9" name="TGFB" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI11" id="s10" name="IFNG" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI12" id="s11" name="TGFA" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI13" id="s12" name="IL1" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI14" id="s13" name="TNFA" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI15" id="s14" name="C" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI16" id="s15" name="F" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI17" id="s16" name="TGFB_D" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI18" id="s17" name="IFNG_D" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI19" id="s18" name="TNFA_D" compartment="default" initialConcentration="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI20" id="s19" name="TGFB_P" compartment="default" initialConcentration="0.999999845071731" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="COPASI21" id="s20" name="W" compartment="default" initialConcentration="0.999999845071731" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter metaid="COPASI22" id="_Half_Maximal_Amount_of_Wounding_to_Damage_System" name="&quot;Half-Maximal Amount of Wounding to Damage System&quot;" value="0.1008" constant="true"/>
+      <parameter metaid="COPASI23" id="_Half_Maximal_Number_of_Keratinocytes" name="&quot;Half-Maximal Number of Keratinocytes&quot;" value="76.9797" constant="true"/>
+      <parameter metaid="COPASI24" id="_Half_Maximal_Concentration_of_TGFB_Inhibiting_Keratinocyte_Proliferation" name="&quot;Half-Maximal Concentration of TGFB Inhibiting Keratinocyte Proliferation&quot;" value="0.7236" constant="true"/>
+      <parameter metaid="COPASI25" id="_Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport" name="&quot;Half-Maximal Concentration of Fibronectin Promoting Mass Transport&quot;" value="1.4977" constant="true"/>
+      <parameter metaid="COPASI26" id="_Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport" name="&quot;Half-Maximal Concentration of Collagen Inhibiting Mass Transport&quot;" value="1.1991" constant="true"/>
+      <parameter metaid="COPASI27" id="_Half_Maximal_Concentration_of_IL1_Promoting_Keratinocyte_Activation" name="&quot;Half-Maximal Concentration of IL1 Promoting Keratinocyte Activation&quot;" value="0.0187" constant="true"/>
+      <parameter metaid="COPASI28" id="_Rate_of_Quiescent_Keratinocyte_Activation" name="&quot;Rate of Quiescent Keratinocyte Activation&quot;" value="1.2907" constant="true"/>
+      <parameter metaid="COPASI29" id="_Rate_of_Quiescent_Keratinocyte_Differentiation" name="&quot;Rate of Quiescent Keratinocyte Differentiation&quot;" value="0.0262" constant="true"/>
+      <parameter metaid="COPASI30" id="_Half_Maximal_Concentration_of_TGFA_Inhibiting_Keratinocyte_Deactivation" name="&quot;Half-Maximal Concentration of TGFA Inhibiting Keratinocyte Deactivation&quot;" value="0.01" constant="true"/>
+      <parameter metaid="COPASI31" id="_Half_Maximal_Concentration_of_IFNG_Inhibiting_Keratinocyte_Deactivation" name="&quot;Half-Maximal Concentration of IFNG Inhibiting Keratinocyte Deactivation&quot;" value="5.5687" constant="true"/>
+      <parameter metaid="COPASI32" id="_Half_Maximal_Concentration_of_TGFB_Promoting_Keratinocyte_Deactivation" name="&quot;Half-Maximal Concentration of TGFB Promoting Keratinocyte Deactivation&quot;" value="0.7231" constant="true"/>
+      <parameter metaid="COPASI33" id="_Rate_of_Activated_Keratinocyte_Deactivation_due_to_TGFB" name="&quot;Rate of Activated Keratinocyte Deactivation due to TGFB&quot;" value="0.1832" constant="true"/>
+      <parameter metaid="COPASI34" id="_Rate_of_Activated_Keratinocyte_Deactivation" name="&quot;Rate of Activated Keratinocyte Deactivation&quot;" value="0.0022" constant="true"/>
+      <parameter metaid="COPASI35" id="_Rate_of_Activated_Keratinocyte_Differentiation" name="&quot;Rate of Activated Keratinocyte Differentiation&quot;" value="0.0212" constant="true"/>
+      <parameter metaid="COPASI36" id="_Rate_of_Deactivation_of_Seperated_Keratinocytes" name="&quot;Rate of Deactivation of Seperated Keratinocytes&quot;" value="0.0065" constant="true"/>
+      <parameter metaid="COPASI37" id="_Rate_of_Differentiated_Keratinocyte_Clearance" name="&quot;Rate of Differentiated Keratinocyte Clearance&quot;" value="0.0102" constant="true"/>
+      <parameter metaid="COPASI38" id="_Rate_of_Quiescent_Keratinocyte_Proliferation" name="&quot;Rate of Quiescent Keratinocyte Proliferation&quot;" value="1.4668" constant="true"/>
+      <parameter metaid="COPASI39" id="_Rate_of_Wounding_to_Quiescent_Keratinocytes" name="&quot;Rate of Wounding to Quiescent Keratinocytes&quot;" value="5.621" constant="true"/>
+      <parameter metaid="COPASI40" id="_Rate_of_Wounding_to_Differentiated_Keratinocytes" name="&quot;Rate of Wounding to Differentiated Keratinocytes&quot;" value="2.7824" constant="true"/>
+      <parameter metaid="COPASI41" id="_Rate_of_Seperated_Keratinocyte_Clearance" name="&quot;Rate of Seperated Keratinocyte Clearance&quot;" value="0.0019" constant="true"/>
+      <parameter metaid="COPASI42" id="_Half_Maximal_Concentration_of_TNFA_Promoting_Activated_Keratinocyte_Proliferation" name="&quot;Half-Maximal Concentration of TNFA Promoting Activated Keratinocyte Proliferation&quot;" value="0.001" constant="true"/>
+      <parameter metaid="COPASI43" id="_Rate_of_Activated_Keratinocyte_Proliferation_due_to_TNFA" name="&quot;Rate of Activated Keratinocyte Proliferation due to TNFA&quot;" value="0.0644" constant="true"/>
+      <parameter metaid="COPASI44" id="_Half_Maximal_Concentration_of_IL1_Promoting_Activated_Keratinocyte_Proliferation" name="&quot;Half-Maximal Concentration of IL1 Promoting Activated Keratinocyte Proliferation&quot;" value="0.1069" constant="true"/>
+      <parameter metaid="COPASI45" id="_Rate_of_Activated_Keratinocyte_Proliferation_due_to_IL1" name="&quot;Rate of Activated Keratinocyte Proliferation due to IL1&quot;" value="1.2394" constant="true"/>
+      <parameter metaid="COPASI46" id="_Rate_of_Activated_Keratinocyte_Proliferation" name="&quot;Rate of Activated Keratinocyte Proliferation&quot;" value="2.5343" constant="true"/>
+      <parameter metaid="COPASI47" id="_Half_Maximal_Concentration_of_IL1_Promoting_Quiescent_Immune_Cell_Activation" name="&quot;Half-Maximal Concentration of IL1 Promoting Quiescent Immune Cell Activation&quot;" value="0.3087" constant="true"/>
+      <parameter metaid="COPASI48" id="_Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_Quiescent_Immune_Cell_Activation" name="&quot;Half-Maximal Number of Activated Keratinocytes Promoting Quiescent Immune Cell Activation&quot;" value="2.2292" constant="true"/>
+      <parameter metaid="COPASI49" id="_Rate_of_Quiescent_Immune_Cell_Activation_due_to_IL1" name="&quot;Rate of Quiescent Immune Cell Activation due to IL1&quot;" value="7.0303" constant="true"/>
+      <parameter metaid="COPASI50" id="_Rate_of_Quiescent_Immune_Cell_Activation_due_to_Activated_Keratinocytes" name="&quot;Rate of Quiescent Immune Cell Activation due to Activated Keratinocytes&quot;" value="1.2214" constant="true"/>
+      <parameter metaid="COPASI51" id="_Rate_of_Activated_Immune_Cell_Deactivation" name="&quot;Rate of Activated Immune Cell Deactivation&quot;" value="0.1088" constant="true"/>
+      <parameter metaid="COPASI52" id="_Rate_of_Quiescent_Immune_Cell_Influx_due_to_IL1" name="&quot;Rate of Quiescent Immune Cell Influx due to IL1&quot;" value="0.007" constant="true"/>
+      <parameter metaid="COPASI53" id="_Half_Maximal_Concentration_of_IL1_Promoting_Quiescent_Immune_Cell_Influx" name="&quot;Half-Maximal Concentration of IL1 Promoting Quiescent Immune Cell Influx&quot;" value="0.0001" constant="true"/>
+      <parameter metaid="COPASI54" id="_Half_Maximal_Number_of_Activated_Immune_Cells_Promoting_Quiescent_Immune_Cell_Influx" name="&quot;Half-Maximal Number of Activated Immune Cells Promoting Quiescent Immune Cell Influx&quot;" value="0.0001" constant="true"/>
+      <parameter metaid="COPASI55" id="_Rate_of_Quiescent_Immune_Cell_Influx_due_to_Activated_Immune_Cells" name="&quot;Rate of Quiescent Immune Cell Influx due to Activated Immune Cells&quot;" value="0.0001" constant="true"/>
+      <parameter metaid="COPASI56" id="_Rate_of_Quiescent_Immune_Cell_Influx" name="&quot;Rate of Quiescent Immune Cell Influx&quot;" value="0.1" constant="true"/>
+      <parameter metaid="COPASI57" id="_Rate_of_Quiescent_Immune_Cell_Clearance" name="&quot;Rate of Quiescent Immune Cell Clearance&quot;" value="0.1" constant="true"/>
+      <parameter metaid="COPASI58" id="_Rate_of_TGFB_Mass_Transport_Across_the_Basement_Membrane" name="&quot;Rate of TGFB Mass Transport Across the Basement Membrane&quot;" value="0.2747" constant="true"/>
+      <parameter metaid="COPASI59" id="_Rate_of_IFNG_Mass_Transport_Across_the_Basement_Membrane" name="&quot;Rate of IFNG Mass Transport Across the Basement Membrane&quot;" value="0.1815" constant="true"/>
+      <parameter metaid="COPASI60" id="_Rate_of_TNFA_Mass_Transport_Across_the_Basement_Membrane" name="&quot;Rate of TNFA Mass Transport Across the Basement Membrane&quot;" value="0.0642" constant="true"/>
+      <parameter metaid="COPASI61" id="_Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_IL1_Production" name="&quot;Half-Maximal Number of Activated Keratinocytes Promoting IL1 Production&quot;" value="0.341" constant="true"/>
+      <parameter metaid="COPASI62" id="_Rate_of_IL1_Production" name="&quot;Rate of IL1 Production&quot;" value="0.0001" constant="true"/>
+      <parameter metaid="COPASI63" id="_Rate_of_IL1_Clearance" name="&quot;Rate of IL1 Clearance&quot;" value="1.4211" constant="true"/>
+      <parameter metaid="COPASI64" id="_Half_Maximal_Number_of_Seperated_Keratinocytes_Promoting_TNFA_Production" name="&quot;Half-Maximal Number of Seperated Keratinocytes Promoting TNFA Production&quot;" value="0.001" constant="true"/>
+      <parameter metaid="COPASI65" id="_Rate_of_TNFA_Production" name="&quot;Rate of TNFA Production&quot;" value="0.0004" constant="true"/>
+      <parameter metaid="COPASI66" id="_Rate_of_TNFA_Clearance" name="&quot;Rate of TNFA Clearance&quot;" value="0.0434" constant="true"/>
+      <parameter metaid="COPASI67" id="_Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_TGFA_Production" name="&quot;Half-Maximal Number of Activated Keratinocytes Promoting TGFA Production&quot;" value="1" constant="true"/>
+      <parameter metaid="COPASI68" id="_Rate_of_TGFA_Production" name="&quot;Rate of TGFA Production&quot;" value="0.0277" constant="true"/>
+      <parameter metaid="COPASI69" id="_Rate_of_TGFA_Clearance" name="&quot;Rate of TGFA Clearance&quot;" value="0.0827" constant="true"/>
+      <parameter metaid="COPASI70" id="_Half_Maximal_Number_of_Activated_Immune_Cells_Promoting_IFNG_D_Production" name="&quot;Half-Maximal Number of Activated Immune Cells Promoting IFNG_D Production&quot;" value="1.1542" constant="true"/>
+      <parameter metaid="COPASI71" id="_Rate_of_IFNG_D_Production" name="&quot;Rate of IFNG_D Production&quot;" value="0.0738" constant="true"/>
+      <parameter metaid="COPASI72" id="_Rate_of_IFNG_D_Clearance" name="&quot;Rate of IFNG_D Clearance&quot;" value="0.365" constant="true"/>
+      <parameter metaid="COPASI73" id="_Half_Maximal_Number_of_Activated_Immune_Cells_Promoting_TNFA_D_Production" name="&quot;Half-Maximal Number of Activated Immune Cells Promoting TNFA_D Production&quot;" value="1.3027" constant="true"/>
+      <parameter metaid="COPASI74" id="_Rate_of_TNFA_D_Production" name="&quot;Rate of TNFA_D Production&quot;" value="0.107" constant="true"/>
+      <parameter metaid="COPASI75" id="_Rate_of_TNFA_D_Clearance" name="&quot;Rate of TNFA_D Clearance&quot;" value="0.1005" constant="true"/>
+      <parameter metaid="COPASI76" id="_Rate_of_TGFB_D_Clearance" name="&quot;Rate of TGFB_D Clearance&quot;" value="0.0546" constant="true"/>
+      <parameter metaid="COPASI77" id="_Rate_of_IFNG_Clearance" name="&quot;Rate of IFNG Clearance&quot;" value="0.0063" constant="true"/>
+      <parameter metaid="COPASI78" id="_Rate_of_TGFB_Clearance" name="&quot;Rate of TGFB Clearance&quot;" value="0.1066" constant="true"/>
+      <parameter metaid="COPASI79" id="_Half_Maximal_Number_of_Quiescent_Keratinocytes_Promoting_Collagen_Production" name="&quot;Half-Maximal Number of Quiescent Keratinocytes Promoting Collagen Production&quot;" value="0.01" constant="true"/>
+      <parameter metaid="COPASI80" id="_Rate_of_Collagen_Production" name="&quot;Rate of Collagen Production&quot;" value="0.0066" constant="true"/>
+      <parameter metaid="COPASI81" id="_Rate_of_Collagen_Clearance" name="&quot;Rate of Collagen Clearance&quot;" value="0.0089" constant="true"/>
+      <parameter metaid="COPASI82" id="_Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_Fibronectin_Production" name="&quot;Half-Maximal Number of Activated Keratinocytes Promoting Fibronectin Production&quot;" value="0.01" constant="true"/>
+      <parameter metaid="COPASI83" id="_Rate_of_Fibronectin_Production" name="&quot;Rate of Fibronectin Production&quot;" value="0.0975" constant="true"/>
+      <parameter metaid="COPASI84" id="_Rate_of_Fibronectin_Clearance" name="&quot;Rate of Fibronectin Clearance&quot;" value="0.0975" constant="true"/>
+      <parameter metaid="COPASI85" id="_Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_TGFB_Release" name="&quot;Half-Maximal Number of Activated Keratinocytes Promoting TGFB Release&quot;" value="1.3223" constant="true"/>
+      <parameter metaid="COPASI86" id="_Rate_of_TGFB_Release_due_to_Activated_Keratinocytes" name="&quot;Rate of TGFB Release due to Activated Keratinocytes&quot;" value="0.0017" constant="true"/>
+      <parameter metaid="COPASI87" id="_Rate_of_TGFB_Release" name="&quot;Rate of TGFB Release&quot;" value="0.0026" constant="true"/>
+      <parameter metaid="COPASI88" id="_Rate_of_Wounding_to_Collagen" name="&quot;Rate of Wounding to Collagen&quot;" value="9.9702" constant="true"/>
+      <parameter metaid="COPASI89" id="_Rate_of_Wounding_Clearance" name="&quot;Rate of Wounding Clearance&quot;" value="5" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction metaid="COPASI90" id="Activation_Kq" name="Activation_Kq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s3" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s12"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_Quiescent_Keratinocyte_Activation </ci>
+                    <ci> s1 </ci>
+                    <ci> default </ci>
+                    <ci> s12 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s12 </ci>
+                    <ci> _Half_Maximal_Concentration_of_IL1_Promoting_Keratinocyte_Activation </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI91" id="Differentiation_Kq" name="Differentiation_Kq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s2" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Quiescent_Keratinocyte_Differentiation </ci>
+                  <ci> s1 </ci>
+                  <ci> default </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI92" id="Deactivation_Ka" name="Deactivation_Ka" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s3" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s9"/>
+          <modifierSpeciesReference species="s10"/>
+          <modifierSpeciesReference species="s11"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <times/>
+                      <ci> _Rate_of_Activated_Keratinocyte_Deactivation </ci>
+                      <ci> s3 </ci>
+                    </apply>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_Activated_Keratinocyte_Deactivation_due_to_TGFB </ci>
+                        <ci> s3 </ci>
+                        <ci> s9 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s9 </ci>
+                        <ci> _Half_Maximal_Concentration_of_TGFB_Promoting_Keratinocyte_Deactivation </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <cn> 1 </cn>
+                    <apply>
+                      <plus/>
+                      <ci> _Half_Maximal_Concentration_of_IFNG_Inhibiting_Keratinocyte_Deactivation </ci>
+                      <ci> s10 </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <cn> 1 </cn>
+                    <apply>
+                      <plus/>
+                      <ci> _Half_Maximal_Concentration_of_TGFA_Inhibiting_Keratinocyte_Deactivation </ci>
+                      <ci> s11 </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI93" id="Differentiation_Ka" name="Differentiation_Ka" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s3" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s4" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Activated_Keratinocyte_Differentiation </ci>
+                  <ci> s3 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI94" id="Deactivation_Ks" name="Deactivation_Ks" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s4" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s2" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Deactivation_of_Seperated_Keratinocytes </ci>
+                  <ci> s4 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI95" id="Clearance_Kd" name="Clearance_Kd" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s2" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Differentiated_Keratinocyte_Clearance </ci>
+                  <ci> s2 </ci>
+                  <ci> default </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI96" id="Proliferation_Kq" name="Proliferation_Kq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s9"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Quiescent_Keratinocyte_Proliferation </ci>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> s1 </ci>
+                      <ci> default </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <times/>
+                        <ci> s1 </ci>
+                        <ci> default </ci>
+                      </apply>
+                      <ci> _Half_Maximal_Number_of_Keratinocytes </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <cn> 1 </cn>
+                    <apply>
+                      <plus/>
+                      <ci> _Half_Maximal_Concentration_of_TGFB_Inhibiting_Keratinocyte_Proliferation </ci>
+                      <ci> s9 </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI97" id="Wounding_Kq" name="Wounding_Kq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s20"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_Wounding_to_Quiescent_Keratinocytes </ci>
+                    <ci> s1 </ci>
+                    <ci> default </ci>
+                    <ci> s20 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s20 </ci>
+                    <ci> _Half_Maximal_Amount_of_Wounding_to_Damage_System </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI98" id="Wounding_Kd" name="Wounding_Kd" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s2" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+          <speciesReference species="s12" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s20"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_Wounding_to_Differentiated_Keratinocytes </ci>
+                    <ci> s2 </ci>
+                    <ci> default </ci>
+                    <ci> s20 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s20 </ci>
+                    <ci> _Half_Maximal_Amount_of_Wounding_to_Damage_System </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI99" id="Clearance_Ks" name="Clearance_Ks" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s4" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Seperated_Keratinocyte_Clearance </ci>
+                  <ci> s4 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI100" id="Proliferation_Ka" name="Proliferation_Ka" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s3" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s9"/>
+          <modifierSpeciesReference species="s12"/>
+          <modifierSpeciesReference species="s13"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <divide/>
+                        <apply>
+                          <times/>
+                          <ci> _Rate_of_Activated_Keratinocyte_Proliferation </ci>
+                          <ci> s3 </ci>
+                        </apply>
+                        <apply>
+                          <plus/>
+                          <ci> s3 </ci>
+                          <ci> _Half_Maximal_Number_of_Keratinocytes </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <divide/>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <apply>
+                              <times/>
+                              <ci> _Rate_of_Activated_Keratinocyte_Proliferation_due_to_IL1 </ci>
+                              <ci> s3 </ci>
+                            </apply>
+                            <apply>
+                              <plus/>
+                              <ci> s3 </ci>
+                              <ci> _Half_Maximal_Number_of_Keratinocytes </ci>
+                            </apply>
+                          </apply>
+                          <ci> s12 </ci>
+                        </apply>
+                        <apply>
+                          <plus/>
+                          <ci> s12 </ci>
+                          <ci> _Half_Maximal_Concentration_of_IL1_Promoting_Activated_Keratinocyte_Proliferation </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <divide/>
+                        <apply>
+                          <times/>
+                          <apply>
+                            <divide/>
+                            <apply>
+                              <times/>
+                              <ci> _Rate_of_Activated_Keratinocyte_Proliferation_due_to_TNFA </ci>
+                              <ci> s3 </ci>
+                            </apply>
+                            <apply>
+                              <plus/>
+                              <ci> s3 </ci>
+                              <ci> _Half_Maximal_Number_of_Keratinocytes </ci>
+                            </apply>
+                          </apply>
+                          <ci> s13 </ci>
+                        </apply>
+                        <apply>
+                          <plus/>
+                          <ci> s13 </ci>
+                          <ci> _Half_Maximal_Concentration_of_TNFA_Promoting_Activated_Keratinocyte_Proliferation </ci>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s9 </ci>
+                    <ci> _Half_Maximal_Concentration_of_TGFB_Inhibiting_Keratinocyte_Proliferation </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI101" id="Activation_Iq" name="Activation_Iq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s7" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s8" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s3"/>
+          <modifierSpeciesReference species="s12"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> _Rate_of_Quiescent_Immune_Cell_Activation_due_to_Activated_Keratinocytes </ci>
+                      <ci> s7 </ci>
+                      <ci> default </ci>
+                      <ci> s3 </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> s3 </ci>
+                      <ci> _Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_Quiescent_Immune_Cell_Activation </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> _Rate_of_Quiescent_Immune_Cell_Activation_due_to_IL1 </ci>
+                      <ci> s7 </ci>
+                      <ci> default </ci>
+                      <ci> s12 </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> s12 </ci>
+                      <ci> _Half_Maximal_Concentration_of_IL1_Promoting_Quiescent_Immune_Cell_Activation </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI102" id="Deactivation_Ia" name="Deactivation_Ia" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s8" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s7" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Activated_Immune_Cell_Deactivation </ci>
+                  <ci> s8 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI103" id="Proliferation_Iq" name="Proliferation_Iq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s7" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s8"/>
+          <modifierSpeciesReference species="s12"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <plus/>
+                  <ci> _Rate_of_Quiescent_Immune_Cell_Influx </ci>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> _Rate_of_Quiescent_Immune_Cell_Influx_due_to_Activated_Immune_Cells </ci>
+                      <ci> s8 </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> s8 </ci>
+                      <ci> _Half_Maximal_Number_of_Activated_Immune_Cells_Promoting_Quiescent_Immune_Cell_Influx </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> _Rate_of_Quiescent_Immune_Cell_Influx_due_to_IL1 </ci>
+                      <ci> s12 </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> s12 </ci>
+                      <ci> _Half_Maximal_Concentration_of_IL1_Promoting_Quiescent_Immune_Cell_Influx </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI104" id="Clearance_Iq" name="Clearance_Iq" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s7" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Quiescent_Immune_Cell_Clearance </ci>
+                  <ci> s7 </ci>
+                  <ci> default </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI105" id="Production_IL1" name="Production_IL1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s12" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s3"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_IL1_Production </ci>
+                    <ci> s3 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s3 </ci>
+                    <ci> _Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_IL1_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI106" id="Clearance_IL1" name="Clearance_IL1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s12" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_IL1_Clearance </ci>
+                  <ci> s12 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI107" id="Production_TNFA" name="Production_TNFA" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s13" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s4"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_TNFA_Production </ci>
+                    <ci> s4 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s4 </ci>
+                    <ci> _Half_Maximal_Number_of_Seperated_Keratinocytes_Promoting_TNFA_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI108" id="Clearance_TNFA" name="Clearance_TNFA" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s13" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_TNFA_Clearance </ci>
+                  <ci> s13 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI109" id="Production_TGFA" name="Production_TGFA" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s11" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s3"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_TGFA_Production </ci>
+                    <ci> s3 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s3 </ci>
+                    <ci> _Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_TGFA_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI110" id="Clearance_TGFA" name="Clearance_TGFA" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s11" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_TGFA_Clearance </ci>
+                  <ci> s11 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI111" id="Production_IFNG_D" name="Production_IFNG_D" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s17" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s8"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_IFNG_D_Production </ci>
+                    <ci> s8 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s8 </ci>
+                    <ci> _Half_Maximal_Number_of_Activated_Immune_Cells_Promoting_IFNG_D_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI112" id="Clearance_IFNG_D" name="Clearance_IFNG_D" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s17" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_IFNG_D_Clearance </ci>
+                  <ci> s17 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI113" id="Production_TNFA_D" name="Production_TNFA_D" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s18" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s8"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_TNFA_D_Production </ci>
+                    <ci> s8 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s8 </ci>
+                    <ci> _Half_Maximal_Number_of_Activated_Immune_Cells_Promoting_TNFA_D_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI114" id="Clearance_TNFA_D" name="Clearance_TNFA_D" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s18" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_TNFA_D_Clearance </ci>
+                  <ci> s18 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI115" id="Clearance_TGFB_D" name="Clearance_TGFB_D" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s16" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_TGFB_D_Clearance </ci>
+                  <ci> s16 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI116" id="Clearance_IFNG" name="Clearance_IFNG" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s10" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_IFNG_Clearance </ci>
+                  <ci> s10 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI117" id="Clearance_TGFB" name="Clearance_TGFB" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s9" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_TGFB_Clearance </ci>
+                  <ci> s9 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI118" id="Production_C" name="Production_C" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s14" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s1"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_Collagen_Production </ci>
+                    <ci> s1 </ci>
+                    <ci> default </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <apply>
+                      <times/>
+                      <ci> s1 </ci>
+                      <ci> default </ci>
+                    </apply>
+                    <ci> _Half_Maximal_Number_of_Quiescent_Keratinocytes_Promoting_Collagen_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI119" id="Clearance_C" name="Clearance_C" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s14" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Collagen_Clearance </ci>
+                  <ci> s14 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI120" id="Production_F" name="Production_F" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s15" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s3"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_Fibronectin_Production </ci>
+                    <ci> s3 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s3 </ci>
+                    <ci> _Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_Fibronectin_Production </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI121" id="Clearance_F" name="Clearance_F" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s15" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Fibronectin_Clearance </ci>
+                  <ci> s15 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI122" id="Release_TGFB_D" name="Release_TGFB_D" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s19" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s16" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s3"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_TGFB_Release </ci>
+                    <ci> s19 </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <ci> _Rate_of_TGFB_Release_due_to_Activated_Keratinocytes </ci>
+                      <ci> s19 </ci>
+                      <ci> s3 </ci>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <ci> s3 </ci>
+                      <ci> _Half_Maximal_Number_of_Activated_Keratinocytes_Promoting_TGFB_Release </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI123" id="Wounding_C" name="Wounding_C" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s14" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s20"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> _Rate_of_Wounding_to_Collagen </ci>
+                    <ci> s14 </ci>
+                    <ci> s20 </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s20 </ci>
+                    <ci> _Half_Maximal_Amount_of_Wounding_to_Damage_System </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI124" id="Clearance_W" name="Clearance_W" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s20" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> _Rate_of_Wounding_Clearance </ci>
+                  <ci> s20 </ci>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI125" id="MassTransport_TGFB__forward" name="MassTransport_TGFB (forward)" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s16" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s9" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s14"/>
+          <modifierSpeciesReference species="s15"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_TGFB_Mass_Transport_Across_the_Basement_Membrane </ci>
+                        <ci> s16 </ci>
+                        <ci> s15 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s15 </ci>
+                        <ci> _Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport </ci>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s14 </ci>
+                    <ci> _Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI126" id="MassTransport_TGFB__backward" name="MassTransport_TGFB (backward)" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s9" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s16" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s14"/>
+          <modifierSpeciesReference species="s15"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_TGFB_Mass_Transport_Across_the_Basement_Membrane </ci>
+                        <ci> s9 </ci>
+                        <ci> s15 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s15 </ci>
+                        <ci> _Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport </ci>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s14 </ci>
+                    <ci> _Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI127" id="MassTransport_IFNG__forward" name="MassTransport_IFNG (forward)" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s17" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s10" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s14"/>
+          <modifierSpeciesReference species="s15"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_IFNG_Mass_Transport_Across_the_Basement_Membrane </ci>
+                        <ci> s17 </ci>
+                        <ci> s15 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s15 </ci>
+                        <ci> _Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport </ci>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s14 </ci>
+                    <ci> _Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI128" id="MassTransport_IFNG__backward" name="MassTransport_IFNG (backward)" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s10" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s17" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s14"/>
+          <modifierSpeciesReference species="s15"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_IFNG_Mass_Transport_Across_the_Basement_Membrane </ci>
+                        <ci> s10 </ci>
+                        <ci> s15 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s15 </ci>
+                        <ci> _Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport </ci>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s14 </ci>
+                    <ci> _Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI129" id="MassTransport_TNFA__forward" name="MassTransport_TNFA (forward)" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s18" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s13" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s14"/>
+          <modifierSpeciesReference species="s15"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_TNFA_Mass_Transport_Across_the_Basement_Membrane </ci>
+                        <ci> s18 </ci>
+                        <ci> s15 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s15 </ci>
+                        <ci> _Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport </ci>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s14 </ci>
+                    <ci> _Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="COPASI130" id="MassTransport_TNFA__backward" name="MassTransport_TNFA (backward)" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="s13" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s18" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s14"/>
+          <modifierSpeciesReference species="s15"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> default </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> _Rate_of_TNFA_Mass_Transport_Across_the_Basement_Membrane </ci>
+                        <ci> s13 </ci>
+                        <ci> s15 </ci>
+                      </apply>
+                      <apply>
+                        <plus/>
+                        <ci> s15 </ci>
+                        <ci> _Half_Maximal_Concentration_of_Fibronectin_Promoting_Mass_Transport </ci>
+                      </apply>
+                    </apply>
+                    <cn> 1 </cn>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> s14 </ci>
+                    <ci> _Half_Maximal_Concentration_of_Collagen_Inhibiting_Mass_Transport </ci>
+                  </apply>
+                </apply>
+                <ci> default </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

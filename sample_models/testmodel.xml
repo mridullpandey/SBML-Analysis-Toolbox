@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.9.0 with libSBML version 5.14.1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
+  <model id="Goldbeter_Calcium_Oscillation_based_on_CICR_AND_CA_Activated_degradation_of_IP3" name="Goldbeter_Calcium_Oscillation_based_on_CICR_AND_CA_Activated_degradation_of_IP3" substanceUnits="substance" timeUnits="time_unit">
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance" name="micromole (default)">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-6" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time_unit" name="hour (default)"/>
+      <unitDefinition id="minute"/>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="default" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="Kq" compartment="default" initialConcentration="0.25" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Kd" compartment="default" initialConcentration="0.75" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="TGFB" compartment="default" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="Source" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="Sink" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="Kq_prol" value="0.01" constant="true"/>
+      <parameter id="E_keras" value="2" constant="true"/>
+      <parameter id="E_TGFB_Kq_prol" value="2" constant="true"/>
+      <parameter id="Kq_to_Kd" value="0.005" constant="true"/>
+      <parameter id="Kd_clear" value="0.001" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="Kq_Proliferation" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Source" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Kq" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="TGFB"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <divide/>
+                  <apply>
+                    <times/>
+                    <ci> Kq_prol </ci>
+                    <ci> Kq </ci>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <ci> Kq </ci>
+                    <ci> E_keras </ci>
+                  </apply>
+                </apply>
+                <ci> E_TGFB_Kq_prol </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> E_TGFB_Kq_prol </ci>
+                <ci> TGFB </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="Kq_Differentiation" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Kq" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Kd" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Kq_to_Kd </ci>
+              <ci> Kq </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="Kd_Clearance" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Kd" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Sink" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Kd_clear </ci>
+              <ci> Kd </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
