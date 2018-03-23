@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
-    <height>588</height>
+    <width>1142</width>
+    <height>766</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,21 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QTreeWidget" name="treeWidget">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <property name="headerHidden">
+        <bool>false</bool>
+       </property>
        <column>
         <property name="text">
          <string>Toolbox</string>
@@ -63,7 +78,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Layout</string>
+          <string>Code</string>
          </property>
         </item>
        </item>
@@ -83,7 +98,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Global Sensitivity Analsysis</string>
+          <string>Global Sensitivity Analysis</string>
          </property>
         </item>
        </item>
@@ -93,7 +108,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>6</number>
        </property>
        <widget class="QWidget" name="pageModel">
         <layout class="QGridLayout" name="gridLayout_5">
@@ -135,7 +150,11 @@
               </attribute>
               <layout class="QGridLayout" name="gridLayout_3">
                <item row="1" column="0">
-                <widget class="QPlainTextEdit" name="plainTextEdit"/>
+                <widget class="QPlainTextEdit" name="modelErrorLog">
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
                </item>
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_2">
@@ -323,6 +342,9 @@
              <property name="RowNumber" stdset="0">
               <number>1</number>
              </property>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
              <attribute name="verticalHeaderShowSortIndicator" stdset="0">
               <bool>false</bool>
              </attribute>
@@ -438,6 +460,9 @@
              <property name="RowNumber" stdset="0">
               <number>1</number>
              </property>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
              <attribute name="verticalHeaderShowSortIndicator" stdset="0">
               <bool>false</bool>
              </attribute>
@@ -567,6 +592,9 @@
              <property name="RowNumber" stdset="0">
               <number>1</number>
              </property>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
              <attribute name="verticalHeaderShowSortIndicator" stdset="0">
               <bool>false</bool>
              </attribute>
@@ -580,7 +608,7 @@
              </row>
              <column>
               <property name="text">
-               <string>#</string>
+               <string>Index</string>
               </property>
               <property name="font">
                <font>
@@ -653,9 +681,98 @@
        <widget class="QWidget" name="pageReactions">
         <layout class="QGridLayout" name="gridLayout_12">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>Reactions Page to be Added</string>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Search:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineSearchReactions"/>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <widget class="QTableWidget" name="tableReactions">
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <row>
+            <property name="text">
+             <string>New Row</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string>Index</string>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Equation</string>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Modifiers</string>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Compartment</string>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+           </column>
+           <item row="0" column="1">
+            <property name="text">
+             <string>New Reaction</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPlainTextEdit" name="plainTextEdit_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
           </widget>
          </item>
@@ -664,15 +781,54 @@
        <widget class="QWidget" name="pageMatrices">
         <layout class="QGridLayout" name="gridLayout_13">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Matrices Page to be Added</string>
-           </property>
+          <widget class="QTabWidget" name="tabWidget_2">
+           <widget class="QWidget" name="tabStoichMatrix">
+            <attribute name="title">
+             <string>Stoichiometry Matrix</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_23">
+             <item row="0" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLabel" name="label_23">
+                 <property name="text">
+                  <string>Search:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEditStoichMatrix"/>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="0">
+              <widget class="QTableWidget" name="tableStoichMatrix">
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_4">
+            <attribute name="title">
+             <string>To be added...</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_22">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>To be added...</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="pageLayout">
+       <widget class="QWidget" name="pageCode">
         <layout class="QGridLayout" name="gridLayout_14">
          <item row="0" column="0">
           <widget class="QLabel" name="label_12">
@@ -875,8 +1031,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>821</width>
-     <height>24</height>
+     <width>1142</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
