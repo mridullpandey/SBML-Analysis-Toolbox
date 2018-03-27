@@ -1,10 +1,14 @@
 from PyQt4 import QtGui
 from PyQt4 import QtCore
+from PyQt4 import Qt
 import sys
 import design
 import os
 import libsbml
 import numpy
+import re
+
+from string import ascii_letters
 
 from utils import SBML2SciPy2
 # For debugging, ensures latest GUI design is used during execution
@@ -20,17 +24,169 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.treeWidget.currentItemChanged.connect(self.updatePageWidget)
 		
 		# Enable opening of SBML model files via menubar
-		self.actionOpen.triggered.connect(self.openModelFile)
+		self.actionOpen.triggered.connect(self.loadModelFile)
+		
+		# Enable creation of new SBML model files via menubar
+		self.actionNew.triggered.connect(self.newModelFile)
 		
 		# Initialize error log bytearray and display to user
 		self.ErrorLog = QtCore.QString('')
+		self.SpeciesErrors = QtCore.QString('')
+		self.ParameterErrors = QtCore.QString('')
 		
+		# Initialize species table
+		self.tableSpecies.setItem(0, 0, QtGui.QTableWidgetItem('s[0]'))
+		self.tableSpecies.setItem(0, 1, QtGui.QTableWidgetItem(''))
+		self.tableSpecies.setItem(0, 2, QtGui.QTableWidgetItem(''))
+		self.tableSpecies.setItem(0, 3, QtGui.QTableWidgetItem(''))
+		self.tableSpecies.setCellWidget(0, 4, QtGui.QSpinBox())
+		self.tableSpecies.setCellWidget(0, 5, QtGui.QCheckBox())
+		self.tableSpecies.setItem(0, 6, QtGui.QTableWidgetItem('s[0]'))
 		
+		# Initialize parameter table
+		self.tableParameters.setItem(0, 0, QtGui.QTableWidgetItem('p[0]'))
+		self.tableParameters.setItem(0, 1, QtGui.QTableWidgetItem(''))
+		self.tableParameters.setItem(0, 2, QtGui.QTableWidgetItem(''))
+		self.tableParameters.setCellWidget(0, 3, QtGui.QCheckBox())
+		self.tableParameters.setItem(0, 4, QtGui.QTableWidgetItem('p[0]'))
+		
+		# Connect auto extending functionality of datatables
+		self.tableSpecies.itemChanged.connect(self.updateTableSpecies)
+		self.tableParameters.itemChanged.connect(self.updateTableParameters)
+	
+	# Function to reinitialize software for a new model
+	def newModelFile(self):
+		
+		# Reset species table to empty state
+		self.tableSpecies.setRowCount(0); self.tableSpecies.setRowCount(1)
+		self.tableSpecies.setItem(0, 0, QtGui.QTableWidgetItem('s[0]'))
+		self.tableSpecies.setItem(0, 1, QtGui.QTableWidgetItem(''))
+		self.tableSpecies.setItem(0, 2, QtGui.QTableWidgetItem(''))
+		self.tableSpecies.setItem(0, 3, QtGui.QTableWidgetItem(''))
+		self.tableSpecies.setCellWidget(0, 4, QtGui.QSpinBox())
+		self.tableSpecies.setCellWidget(0, 5, QtGui.QCheckBox())
+		self.tableSpecies.setItem(0, 6, QtGui.QTableWidgetItem('s[0]'))
+		
+		# Reset parameter table to empty state
+		self.tableParameters.setRowCount(0); self.tableParameters.setRowCount(1)
+		self.tableParameters.setItem(0, 0, QtGui.QTableWidgetItem('p[0]'))
+		self.tableParameters.setItem(0, 1, QtGui.QTableWidgetItem(''))
+		self.tableParameters.setItem(0, 2, QtGui.QTableWidgetItem(''))
+		self.tableParameters.setCellWidget(0, 3, QtGui.QCheckBox())
+		self.tableParameters.setItem(0, 4, QtGui.QTableWidgetItem('p[0]'))
+	
+	# Function to automatically extend parameter table as needed
+	def updateTableSpecies(self):
+		
+		# Reset ParameterErrorLog
+		self.SpeciesErrors = QtCore.QString('')
+		
+		# Get length of table
+		FinalRowIndex = self.tableSpecies.rowCount()
+		
+		# Check if either the name, value or metadata functions have been modified
+		# If they have been, extend the table.
+		try:
+			if (self.tableSpecies.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0)
+		     or self.tableSpecies.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
+				 
+					self.tableSpecies.insertRow(FinalRowIndex)
+					self.tableSpecies.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('s[0]'))
+					self.tableSpecies.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
+					self.tableSpecies.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
+					self.tableSpecies.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
+					self.tableSpecies.setCellWidget(FinalRowIndex, 4, QtGui.QSpinBox())
+					self.tableSpecies.setCellWidget(FinalRowIndex, 5, QtGui.QCheckBox())
+					self.tableSpecies.setItem(FinalRowIndex, 6, QtGui.QTableWidgetItem('s[0]'))
+					
+			# Highlight errors in index, name, value, and metaid
+			for i in range(self.tableSpecies.rowCount()-1):
+				if self.tableSpecies.item(i,0).data(0) != QtGui.QTableWidgetItem('s['+str(i)+']').data(0):
+					self.tableSpecies.setItem(i,0,QtGui.QTableWidgetItem('s['+str(i)+']'))
+					self.SpeciesErrors.append('Illegal index name change attempt in row '+str(i)+'\n')
+				else:
+					self.tableSpecies.item(i,0).setBackground(QtGui.QColor(255,255,255))
+				
+				if not (all(ord(char) < 128 for char in str(self.tableSpecies.item(i,1).data(0).toString())) and
+				    any(c.isalpha() for c in str(self.tableSpecies.item(i,1).data(0).toString()))):
+					self.tableSpecies.item(i,1).setBackground(QtGui.QColor(255,150,150))
+					self.SpeciesErrors.append('Name error in row '+str(i)+'\n')
+				else:
+					self.tableSpecies.item(i,1).setBackground(QtGui.QColor(255,255,255))
+				
+				try:
+					float(str(self.tableSpecies.item(i,2).data(0).toString()))
+					self.tableSpecies.item(i,2).setBackground(QtGui.QColor(255,255,255))
+				except ValueError:
+					self.tableSpecies.item(i,2).setBackground(QtGui.QColor(255,150,150))
+					self.SpeciesErrors.append('Value error in row '+str(i)+'\n')
+					
+		except AttributeError:
+			pass
+			
+		# Display parameter errors for user feedback
+		self.speciesErrorLog.clear()
+		self.speciesErrorLog.setPlainText(self.SpeciesErrors)
+	
+	# Function to automatically extend parameter table as needed
+	def updateTableParameters(self):
+		
+		# Reset ParameterErrorLog
+		self.ParameterErrors = QtCore.QString('')
+		
+		# Get length of table
+		FinalRowIndex = self.tableParameters.rowCount()
+		
+		# Check if either the name, value or metadata functions have been modified
+		# If they have been, extend the table.
+		try:
+			if (self.tableParameters.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0)
+		     or self.tableParameters.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)
+			 or self.tableParameters.item(FinalRowIndex-1,4).data(0) != QtGui.QTableWidgetItem('p['+str(FinalRowIndex-1)+']').data(0)):
+					self.tableParameters.insertRow(FinalRowIndex)
+					self.tableParameters.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('p['+str(FinalRowIndex)+']'))
+					self.tableParameters.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
+					self.tableParameters.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
+					self.tableParameters.setCellWidget(FinalRowIndex, 3, QtGui.QCheckBox())
+					self.tableParameters.setItem(FinalRowIndex, 4, QtGui.QTableWidgetItem('p['+str(FinalRowIndex)+']'))
+					
+			# Highlight errors in index, name, value, and metaid
+			for i in range(self.tableParameters.rowCount()-1):
+				if self.tableParameters.item(i,0).data(0) != QtGui.QTableWidgetItem('p['+str(i)+']').data(0):
+					self.tableParameters.setItem(i,0,QtGui.QTableWidgetItem('p['+str(i)+']'))
+					self.ParameterErrors.append('Illegal index name change attempt in row '+str(i)+'\n')
+				else:
+					self.tableParameters.item(i,0).setBackground(QtGui.QColor(255,255,255))
+				
+				if not (all(ord(char) < 128 for char in str(self.tableParameters.item(i,1).data(0).toString())) and
+				    any(c.isalpha() for c in str(self.tableParameters.item(i,1).data(0).toString()))):
+					self.tableParameters.item(i,1).setBackground(QtGui.QColor(255,150,150))
+					self.ParameterErrors.append('Name error in row '+str(i)+'\n')
+				else:
+					self.tableParameters.item(i,1).setBackground(QtGui.QColor(255,255,255))
+				
+				try:
+					float(str(self.tableParameters.item(i,2).data(0).toString()))
+					self.tableParameters.item(i,2).setBackground(QtGui.QColor(255,255,255))
+				except ValueError:
+					self.tableParameters.item(i,2).setBackground(QtGui.QColor(255,150,150))
+					self.ParameterErrors.append('Value error in row '+str(i)+'\n')
+					
+		except AttributeError:
+			pass
+			
+		# Display parameter errors for user feedback
+		self.parameterErrorLog.clear()
+		self.parameterErrorLog.setPlainText(self.ParameterErrors)
+				
+		
+				
+	
 	def syncErrorLog(self):
 		self.modelErrorLog.setPlainText(self.ErrorLog)
 		
 	# Open file dialog and upacking data from SBML files
-	def openModelFile(self):
+	def loadModelFile(self):
 		
 		# Get SBMLModelPath from user input
 		self.SBMLModelPath = str(QtGui.QFileDialog.getOpenFileName(filter = '*.xml'))
@@ -83,8 +239,16 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableCompartments.setRowCount(self.SBMLModel.getNumCompartments())
 		for i in range(self.tableCompartments.rowCount()):
 			CurCompartment = self.SBMLModel.getCompartment(i)
-			self.tableCompartments.setItem(i, 0, QtGui.QTableWidgetItem(str(i)))
-			self.tableCompartments.setItem(i, 1, QtGui.QTableWidgetItem(str(CurCompartment.name)))
+			self.tableCompartments.setItem(i, 0, QtGui.QTableWidgetItem('c['+str(i)+']'))
+			
+			if not str(CurCompartment.getName()):
+				self.tableCompartments.setItem(i, 1, 
+					QtGui.QTableWidgetItem('default'+str(i)))
+				self.tableCompartments.item(i, 1).setBackground(QtGui.QColor(255,255,150))
+			else:
+				self.tableCompartments.setItem(i, 1, 
+					QtGui.QTableWidgetItem(str(CurCompartment.getName())))
+			
 			self.tableCompartments.setItem(i, 2, QtGui.QTableWidgetItem(str(CurCompartment.volume)))
 			self.tableCompartments.setItem(i, 3, QtGui.QTableWidgetItem(str(CurCompartment.volume)))
 		self.tableCompartments.resizeColumnsToContents()
@@ -93,11 +257,13 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableSpecies.setRowCount(self.SBMLModel.getNumSpecies())
 		for i in range(self.tableSpecies.rowCount()):
 			CurSpecies = self.SBMLModel.getSpecies(i)
-			self.tableSpecies.setItem(i, 0, QtGui.QTableWidgetItem(str(i)))
-			self.tableSpecies.setItem(i, 1, QtGui.QTableWidgetItem(str(CurSpecies.name)))
+			self.tableSpecies.setItem(i, 0, QtGui.QTableWidgetItem('s['+str(i)+']'))
+			self.tableSpecies.setItem(i, 1, QtGui.QTableWidgetItem(str(CurSpecies.getName())))
 			self.tableSpecies.setItem(i, 2, QtGui.QTableWidgetItem(str(CurSpecies.initial_amount)))
 			self.tableSpecies.setItem(i, 3, QtGui.QTableWidgetItem(str(CurSpecies.initial_amount)))
-			self.tableSpecies.setItem(i, 4, QtGui.QTableWidgetItem(str(CurSpecies.boundary_condition)))
+			self.tableSpecies.setItem(i, 4, QtGui.QTableWidgetItem(str(CurSpecies.compartment)))
+			self.tableSpecies.setItem(i, 5, QtGui.QTableWidgetItem(str(CurSpecies.boundary_condition)))
+			self.tableSpecies.setItem(i, 6, QtGui.QTableWidgetItem(str(CurSpecies.getMetaId())))
 		self.tableSpecies.resizeColumnsToContents()
 		
 		# Create a vector of Species names for later use
@@ -109,10 +275,39 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableParameters.setRowCount(self.SBMLModel.getNumParameters())
 		for i in range(self.tableParameters.rowCount()):
 			CurParameter = self.SBMLModel.getParameter(i)
-			self.tableParameters.setItem(i, 0, QtGui.QTableWidgetItem(str(i)))
-			self.tableParameters.setItem(i, 1, QtGui.QTableWidgetItem(str(CurParameter.name)))
-			self.tableParameters.setItem(i, 2, QtGui.QTableWidgetItem(str(CurParameter.value)))
-			self.tableParameters.setItem(i, 3, QtGui.QTableWidgetItem(str(True)))
+			
+			# Create vector index for parameter
+			self.tableParameters.setItem(i, 0, QtGui.QTableWidgetItem('p['+str(i)+']'))
+			
+			# Port parameter name data from SBML model
+			if not str(CurParameter.getName()):
+				self.tableParameters.setItem(i, 1, 
+					QtGui.QTableWidgetItem('default_prm'+str(i)))
+			else:
+				self.tableParameters.setItem(i, 1, 
+					QtGui.QTableWidgetItem(str(CurParameter.getName())))
+			
+			# Get parameter value data from SBML model
+			if not str(CurParameter.getValue()):
+				self.tableParameters.setItem(i, 2, 
+					QtGui.QTableWidgetItem('nan'))
+			else:
+				self.tableParameters.setItem(i, 2, 
+					QtGui.QTableWidgetItem(str(CurParameter.getValue())))
+			
+			# Initialize parameter variable condtional
+			self.tableParameters.setCellWidget(i, 3, QtGui.QCheckBox())
+			
+			# Get parameter metaid data from SBML model
+			if not str(CurParameter.getMetaId()):
+				self.tableParameters.setItem(i, 4, 
+					QtGui.QTableWidgetItem('default_prmid'+str(i)))
+			else:
+				self.tableParameters.setItem(i, 4, 
+					QtGui.QTableWidgetItem(str(CurParameter.getMetaId())))
+					
+			
+			
 		self.tableParameters.resizeColumnsToContents()
 	
 		# Extract Reaction data from SBML Model
@@ -132,11 +327,45 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		
 		for i in range(self.tableReactions.rowCount()):
 			
-			# Grab current reaction
+			# Get current reaction from SBML model
 			CurReaction = self.SBMLModel.getReaction(i)
+			
+			# Create reaction vector index
 			self.tableReactions.setItem(i, 0, QtGui.QTableWidgetItem(str(i)))
-			self.tableReactions.setItem(i, 1, QtGui.QTableWidgetItem(str(CurReaction.name)))
-			self.tableReactions.setItem(i, 2, QtGui.QTableWidgetItem(str(CurReaction.getKineticLaw().getFormula())))
+			
+			# Port name data from SBML model
+			if not str(CurReaction.getName()):
+				self.tableReactions.setItem(i, 1, 
+					QtGui.QTableWidgetItem('default_rxn'+str(i)))
+				self.tableReactions.item(i, 1).setBackground(QtGui.QColor(255,255,150))
+			else:
+				self.tableReactions.setItem(i, 1, 
+					QtGui.QTableWidgetItem(str(CurReaction.getName())))
+				
+			# Get current reaction differential equation
+			Formula = str(CurReaction.getKineticLaw().getFormula())
+	
+			# Replace compartment names with vector index in equation
+			for j in reversed(range(self.tableCompartments.rowCount())):
+				Formula = Formula.replace( str(self.tableCompartments.item(j,1).data(0).toString()), 
+										   str(self.tableCompartments.item(j,0).data(0).toString()) )
+		
+			# Replace parameter names with vector index in equation
+			for j in reversed(range(self.tableParameters.rowCount())):
+				Formula = Formula.replace( str(self.tableParameters.item(j,1).data(0).toString()), 
+										   str(self.tableParameters.item(j,0).data(0).toString()) )
+				Formula = Formula.replace( str(self.tableParameters.item(j,4).data(0).toString()), 
+										   str(self.tableParameters.item(j,0).data(0).toString()) )
+										   
+			# Replace species names with vector index in equation
+			for j in reversed(range(self.tableSpecies.rowCount())):
+				Formula = Formula.replace( str(self.tableSpecies.item(j,1).data(0).toString()), 
+										   str(self.tableSpecies.item(j,0).data(0).toString()) )
+				Formula = Formula.replace( str(self.tableSpecies.item(j,6).data(0).toString()), 
+										   str(self.tableSpecies.item(j,0).data(0).toString()) )
+
+			# Place differential equation into tableReactions
+			self.tableReactions.setItem(i, 2, QtGui.QTableWidgetItem(Formula))
 			
 			# Assemeble stoichiometric matrix into a numpy array.
 			for r in CurReaction.getListOfReactants():
