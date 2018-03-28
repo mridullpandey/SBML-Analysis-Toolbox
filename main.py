@@ -29,33 +29,41 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		# Enable creation of new SBML model files via menubar
 		self.actionNew.triggered.connect(self.newModelFile)
 		
-		# Initialize error log bytearray and display to user
-		self.ErrorLog = QtCore.QString('')
-		self.SpeciesErrors = QtCore.QString('')
-		self.ParameterErrors = QtCore.QString('')
-		
-		# Initialize species table
-		self.tableSpecies.setItem(0, 0, QtGui.QTableWidgetItem('s[0]'))
-		self.tableSpecies.setItem(0, 1, QtGui.QTableWidgetItem(''))
-		self.tableSpecies.setItem(0, 2, QtGui.QTableWidgetItem(''))
-		self.tableSpecies.setItem(0, 3, QtGui.QTableWidgetItem(''))
-		self.tableSpecies.setCellWidget(0, 4, QtGui.QSpinBox())
-		self.tableSpecies.setCellWidget(0, 5, QtGui.QCheckBox())
-		self.tableSpecies.setItem(0, 6, QtGui.QTableWidgetItem('s[0]'))
-		
-		# Initialize parameter table
-		self.tableParameters.setItem(0, 0, QtGui.QTableWidgetItem('p[0]'))
-		self.tableParameters.setItem(0, 1, QtGui.QTableWidgetItem(''))
-		self.tableParameters.setItem(0, 2, QtGui.QTableWidgetItem(''))
-		self.tableParameters.setCellWidget(0, 3, QtGui.QCheckBox())
-		self.tableParameters.setItem(0, 4, QtGui.QTableWidgetItem('p[0]'))
+		# Initialize as new model
+		self.newModelFile()
 		
 		# Connect auto extending functionality of datatables
+		self.tableCompartments.itemChanged.connect(self.updateTableCompartments)
 		self.tableSpecies.itemChanged.connect(self.updateTableSpecies)
 		self.tableParameters.itemChanged.connect(self.updateTableParameters)
 	
 	# Function to reinitialize software for a new model
 	def newModelFile(self):
+		
+		# Initialize error log bytearray and display to user
+		self.ErrorLog = QtCore.QString('')
+		self.CompartmentErrors = QtCore.QString('')
+		self.SpeciesErrors = QtCore.QString('')
+		self.ParameterErrors = QtCore.QString('')
+		self.ReactionErrors = QtCore.QString('')
+		
+		# Initialize compartments combo box
+		self.comboBoxCompartments = QtGui.QComboBox()
+		self.comboBoxCompartments.insertItem(0,QtCore.QString(''))
+		
+		# Reset model metadata to empty state
+		self.lineEditModelName.setText('New Model')
+		self.lineEditVolumeUnits.setText('ml')
+		self.lineEditQuantityUnits.setText('mmol')	
+		self.lineEditTimeUnits.setText('s')
+		
+		# Reset compartment table to empty state
+		self.tableCompartments.setRowCount(0); self.tableCompartments.setRowCount(1)
+		self.tableCompartments.setItem(0, 0, QtGui.QTableWidgetItem('c[0]'))
+		self.tableCompartments.setItem(0, 1, QtGui.QTableWidgetItem(''))
+		self.tableCompartments.setItem(0, 2, QtGui.QTableWidgetItem(''))
+		self.tableCompartments.setItem(0, 3, QtGui.QTableWidgetItem(''))
+		self.tableCompartments.setItem(0, 4, QtGui.QTableWidgetItem('c[0]'))
 		
 		# Reset species table to empty state
 		self.tableSpecies.setRowCount(0); self.tableSpecies.setRowCount(1)
@@ -63,7 +71,7 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableSpecies.setItem(0, 1, QtGui.QTableWidgetItem(''))
 		self.tableSpecies.setItem(0, 2, QtGui.QTableWidgetItem(''))
 		self.tableSpecies.setItem(0, 3, QtGui.QTableWidgetItem(''))
-		self.tableSpecies.setCellWidget(0, 4, QtGui.QSpinBox())
+		self.tableSpecies.setCellWidget(0, 4, self.comboBoxCompartments)
 		self.tableSpecies.setCellWidget(0, 5, QtGui.QCheckBox())
 		self.tableSpecies.setItem(0, 6, QtGui.QTableWidgetItem('s[0]'))
 		
@@ -74,6 +82,73 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableParameters.setItem(0, 2, QtGui.QTableWidgetItem(''))
 		self.tableParameters.setCellWidget(0, 3, QtGui.QCheckBox())
 		self.tableParameters.setItem(0, 4, QtGui.QTableWidgetItem('p[0]'))
+		
+		# Reset reaction table to empty state
+		self.tableReactions.setRowCount(0); self.tableReactions.setRowCount(1)
+		self.tableReactions.setItem(0, 0, QtGui.QTableWidgetItem('p[0]'))
+		self.tableReactions.setItem(0, 1, QtGui.QTableWidgetItem(''))
+		self.tableReactions.setItem(0, 2, QtGui.QTableWidgetItem(''))
+		self.tableReactions.setItem(0, 3, QtGui.QTableWidgetItem(''))
+		self.tableReactions.setCellWidget(0, 4, self.comboBoxCompartments)
+		
+		# Reset stoichiometric matrix to empty state
+		self.tableStoichMatrix.setRowCount(0)
+		self.tableStoichMatrix.setColumnCount(0)
+		
+	
+	# Function to automatically extend compartment table as needed
+	def updateTableCompartments(self):
+		
+		# Reset ParameterErrorLog
+		self.CompartmentErrors = QtCore.QString('')
+		
+		# Get length of table
+		FinalRowIndex = self.tableCompartments.rowCount()
+		
+		# Check if either the name, value or metadata functions have been modified
+		# If they have been, extend the table.
+		try:
+			if (self.tableCompartments.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0) 
+			 or self.tableCompartments.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
+					self.tableCompartments.insertRow(FinalRowIndex)
+					self.tableCompartments.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+					self.tableCompartments.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
+					self.tableCompartments.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
+					self.tableCompartments.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
+					self.tableCompartments.setItem(FinalRowIndex, 4, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+					
+			# Highlight errors in index, name, value, and metaid
+			for i in range(self.tableCompartments.rowCount()-1):
+				if self.tableCompartments.item(i,0).data(0) != QtGui.QTableWidgetItem('c['+str(i)+']').data(0):
+					self.tableCompartments.setItem(i,0,QtGui.QTableWidgetItem('c['+str(i)+']'))
+					self.CompartmentErrors.append('Illegal index name change attempt in row '+str(i)+'\n')
+				else:
+					self.tableCompartments.item(i,0).setBackground(QtGui.QColor(255,255,255))
+				
+				if not (all(ord(char) < 128 for char in str(self.tableCompartments.item(i,1).data(0).toString())) and
+				    any(c.isalpha() for c in str(self.tableCompartments.item(i,1).data(0).toString()))):
+					self.tableCompartments.item(i,1).setBackground(QtGui.QColor(255,150,150))
+					self.CompartmentErrors.append('Name error in row '+str(i)+'\n')
+				else:
+					self.tableCompartments.item(i,1).setBackground(QtGui.QColor(255,255,255))
+				
+				try:
+					float(str(self.tableCompartments.item(i,2).data(0).toString()))
+					self.tableCompartments.item(i,2).setBackground(QtGui.QColor(255,255,255))
+				except ValueError:
+					self.tableCompartments.item(i,2).setBackground(QtGui.QColor(255,150,150))
+					self.CompartmentErrors.append('Value error in row '+str(i)+'\n')
+				
+		except AttributeError:
+			pass
+		
+		# Update compartment combo-box
+		for i in range(self.tableCompartments.rowCount()-1):
+			self.comboBoxCompartments.insertItem(i, self.tableCompartments.item(i,1).data(0).toString())
+			
+		# Display parameter errors for user feedback
+		self.compartmentErrorLog.clear()
+		self.compartmentErrorLog.setPlainText(self.CompartmentErrors)
 	
 	# Function to automatically extend parameter table as needed
 	def updateTableSpecies(self):
@@ -95,7 +170,7 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 					self.tableSpecies.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
 					self.tableSpecies.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
 					self.tableSpecies.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
-					self.tableSpecies.setCellWidget(FinalRowIndex, 4, QtGui.QSpinBox())
+					self.tableSpecies.setCellWidget(FinalRowIndex, 4, self.comboBoxCompartments)
 					self.tableSpecies.setCellWidget(FinalRowIndex, 5, QtGui.QCheckBox())
 					self.tableSpecies.setItem(FinalRowIndex, 6, QtGui.QTableWidgetItem('s[0]'))
 					
@@ -178,10 +253,7 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		# Display parameter errors for user feedback
 		self.parameterErrorLog.clear()
 		self.parameterErrorLog.setPlainText(self.ParameterErrors)
-				
-		
-				
-	
+						
 	def syncErrorLog(self):
 		self.modelErrorLog.setPlainText(self.ErrorLog)
 		
