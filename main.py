@@ -37,6 +37,10 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableSpecies.itemChanged.connect(self.updateTableSpecies)
 		self.tableParameters.itemChanged.connect(self.updateTableParameters)
 	
+	
+		# Troubleshooting loop counter
+		self.LoopCounter = 0
+	
 	# Function to reinitialize software for a new model
 	def newModelFile(self):
 		
@@ -49,7 +53,6 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		
 		# Initialize compartments combo box
 		self.comboBoxCompartments = QtGui.QComboBox()
-		self.comboBoxCompartments.insertItem(0,QtCore.QString(''))
 		
 		# Reset model metadata to empty state
 		self.lineEditModelName.setText('New Model')
@@ -95,56 +98,90 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		self.tableStoichMatrix.setRowCount(0)
 		self.tableStoichMatrix.setColumnCount(0)
 		
-	
-	# Function to automatically extend compartment table as needed
-	def updateTableCompartments(self):
+	# Function to automatically extend compartment table and highlight errors as needed
+	def updateTableCompartments(self, ManualUpdate=False):
 		
-		# Reset ParameterErrorLog
-		self.CompartmentErrors = QtCore.QString('')
-		
-		# Get length of table
 		FinalRowIndex = self.tableCompartments.rowCount()
 		
-		# Check if either the name, value or metadata functions have been modified
-		# If they have been, extend the table.
-		try:
-			if (self.tableCompartments.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0) 
-			 or self.tableCompartments.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
-					self.tableCompartments.insertRow(FinalRowIndex)
-					self.tableCompartments.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
-					self.tableCompartments.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
-					self.tableCompartments.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
-					self.tableCompartments.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
-					self.tableCompartments.setItem(FinalRowIndex, 4, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
-					
-			# Highlight errors in index, name, value, and metaid
-			for i in range(self.tableCompartments.rowCount()-1):
-				if self.tableCompartments.item(i,0).data(0) != QtGui.QTableWidgetItem('c['+str(i)+']').data(0):
-					self.tableCompartments.setItem(i,0,QtGui.QTableWidgetItem('c['+str(i)+']'))
-					self.CompartmentErrors.append('Illegal index name change attempt in row '+str(i)+'\n')
-				else:
-					self.tableCompartments.item(i,0).setBackground(QtGui.QColor(255,255,255))
-				
-				if not (all(ord(char) < 128 for char in str(self.tableCompartments.item(i,1).data(0).toString())) and
-				    any(c.isalpha() for c in str(self.tableCompartments.item(i,1).data(0).toString()))):
-					self.tableCompartments.item(i,1).setBackground(QtGui.QColor(255,150,150))
-					self.CompartmentErrors.append('Name error in row '+str(i)+'\n')
-				else:
-					self.tableCompartments.item(i,1).setBackground(QtGui.QColor(255,255,255))
-				
-				try:
-					float(str(self.tableCompartments.item(i,2).data(0).toString()))
-					self.tableCompartments.item(i,2).setBackground(QtGui.QColor(255,255,255))
-				except ValueError:
-					self.tableCompartments.item(i,2).setBackground(QtGui.QColor(255,150,150))
-					self.CompartmentErrors.append('Value error in row '+str(i)+'\n')
-				
-		except AttributeError:
-			pass
+		self.CompartmentErrors = QtCore.QString('')
 		
-		# Update compartment combo-box
-		for i in range(self.tableCompartments.rowCount()-1):
-			self.comboBoxCompartments.insertItem(i, self.tableCompartments.item(i,1).data(0).toString())
+		if self.tableCompartments.item(FinalRowIndex-1,1) != QtGui.QTableWidgetItem(''):
+			print('Change to Name')
+			print self.tableCompartments.item(FinalRowIndex-1,1)
+			self.tableCompartments.insertRow(FinalRowIndex)
+		elif self.tableCompartments.item(FinalRowIndex-1,2) != QtGui.QTableWidgetItem(''):
+			print('Change to Value')
+			self.tableCompartments.insertRow(FinalRowIndex)
+		else:
+			pass
+			
+		#~ print self.getTableData(self.tableCompartments, 0, 1, self.tableCompartments.rowCount()-1, 1)
+		
+		#~ if (self.tableCompartments.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0) 
+		 #~ or self.tableCompartments.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
+	 
+		#~ if self.tableCompartments.item(FinalRowIndex-1,1) != None:
+			#~ print 'Not None'
+		#~ else:
+			#~ print 'None'
+		
+		#~ if self.tableCompartments.item(FinalRowIndex-1,4) != None:
+			#~ self.tableCompartments.insertRow(FinalRowIndex)
+			#~ self.tableCompartments.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+		#~ else:
+			#~ self.tableCompartments.setItem(FinalRowIndex-1, 1, QtGui.QTableWidgetItem(''))
+			#~ self.tableCompartments.setItem(FinalRowIndex-1, 2, QtGui.QTableWidgetItem(''))
+			#~ self.tableCompartments.setItem(FinalRowIndex-1, 3, QtGui.QTableWidgetItem(''))
+			#~ self.tableCompartments.setItem(FinalRowIndex-1, 4, QtGui.QTableWidgetItem('c['+str(FinalRowIndex-1)+']'))
+		
+		#~ if (self.tableCompartments.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0) 
+		 #~ or self.tableCompartments.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
+					#~ self.tableCompartments.insertRow(FinalRowIndex)
+					#~ self.tableCompartments.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 4, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+		
+		# Check if the name or value cells of the final row have been modified
+		# If they have been, extend the table.
+		#~ try:
+			#~ if (self.tableCompartments.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0) 
+			 #~ or self.tableCompartments.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
+					#~ self.tableCompartments.insertRow(FinalRowIndex)
+					#~ self.tableCompartments.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
+					#~ self.tableCompartments.setItem(FinalRowIndex, 4, QtGui.QTableWidgetItem('c['+str(FinalRowIndex)+']'))
+			
+			#~ # Check over entire table for potential errors.
+			#~ for i in range(self.tableCompartments.rowCount()-1):
+				#~ # Check for errors in index column
+				#~ if self.tableCompartments.item(i,0).data(0) != QtGui.QTableWidgetItem('c['+str(i)+']').data(0):
+					#~ self.tableCompartments.setItem(i,0,QtGui.QTableWidgetItem('c['+str(i)+']'))
+					#~ self.CompartmentErrors.append('Illegal index name change attempt in row '+str(i)+'\n')
+				#~ else:
+					#~ self.tableCompartments.item(i,0).setBackground(QtGui.QColor(255,255,255))
+				
+				#~ # Check for errors in name column
+				#~ if not (all(ord(char) < 128 for char in str(self.tableCompartments.item(i,1).data(0).toString())) and
+				    #~ any(c.isalpha() for c in str(self.tableCompartments.item(i,1).data(0).toString()))):
+					#~ self.tableCompartments.item(i,1).setBackground(QtGui.QColor(255,150,150))
+					#~ self.CompartmentErrors.append('Name error in row '+str(i)+'\n')
+				#~ else:
+					#~ self.tableCompartments.item(i,1).setBackground(QtGui.QColor(255,255,255))
+				
+				#~ # Check for errors in value column
+				#~ try:
+					#~ float(str(self.tableCompartments.item(i,2).data(0).toString()))
+					#~ self.tableCompartments.item(i,2).setBackground(QtGui.QColor(255,255,255))
+				#~ except ValueError:
+					#~ self.tableCompartments.item(i,2).setBackground(QtGui.QColor(255,150,150))
+					#~ self.CompartmentErrors.append('Value error in row '+str(i)+'\n')
+				
+		#~ except AttributeError:
+			#~ pass
 			
 		# Display parameter errors for user feedback
 		self.compartmentErrorLog.clear()
@@ -159,22 +196,21 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		# Get length of table
 		FinalRowIndex = self.tableSpecies.rowCount()
 		
-		# Check if either the name, value or metadata functions have been modified
+		# Check if either the name, value or metadata functions of the final row have been modified.
 		# If they have been, extend the table.
 		try:
 			if (self.tableSpecies.item(FinalRowIndex-1,1).data(0) != QtGui.QTableWidgetItem('').data(0)
 		     or self.tableSpecies.item(FinalRowIndex-1,2).data(0) != QtGui.QTableWidgetItem('').data(0)):
-				 
 					self.tableSpecies.insertRow(FinalRowIndex)
-					self.tableSpecies.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('s[0]'))
+					self.tableSpecies.setItem(FinalRowIndex, 0, QtGui.QTableWidgetItem('s['+str(FinalRowIndex)+']'))
 					self.tableSpecies.setItem(FinalRowIndex, 1, QtGui.QTableWidgetItem(''))
 					self.tableSpecies.setItem(FinalRowIndex, 2, QtGui.QTableWidgetItem(''))
 					self.tableSpecies.setItem(FinalRowIndex, 3, QtGui.QTableWidgetItem(''))
-					self.tableSpecies.setCellWidget(FinalRowIndex, 4, self.comboBoxCompartments)
+					self.tableSpecies.setItem(FinalRowIndex, 4, QtGui.QTableWidgetItem(''))
 					self.tableSpecies.setCellWidget(FinalRowIndex, 5, QtGui.QCheckBox())
-					self.tableSpecies.setItem(FinalRowIndex, 6, QtGui.QTableWidgetItem('s[0]'))
-					
-			# Highlight errors in index, name, value, and metaid
+					self.tableSpecies.setItem(FinalRowIndex, 6, QtGui.QTableWidgetItem('s['+str(FinalRowIndex)+']'))
+			
+			# Highlight errors in index, name, value, and metaid -- this severely slows down opening models
 			for i in range(self.tableSpecies.rowCount()-1):
 				if self.tableSpecies.item(i,0).data(0) != QtGui.QTableWidgetItem('s['+str(i)+']').data(0):
 					self.tableSpecies.setItem(i,0,QtGui.QTableWidgetItem('s['+str(i)+']'))
@@ -188,6 +224,12 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 					self.SpeciesErrors.append('Name error in row '+str(i)+'\n')
 				else:
 					self.tableSpecies.item(i,1).setBackground(QtGui.QColor(255,255,255))
+				
+				# Check if provided compartment is defined
+				if not (any(self.tableSpecies.item(i,4).data(0).toString() == 
+							self.getTableData(self.tableSpecies, 1, 0, 1,self.SBMLModel.getNumCompartments()).flatten())):
+					self.SpeciesErrors.append('Undefined compartment name in row '+str(i)+'\n')
+					self.tableSpecies.item(i,4).setBackground(QtGui.QColor(255,150,150))
 				
 				try:
 					float(str(self.tableSpecies.item(i,2).data(0).toString()))
@@ -323,6 +365,8 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 			
 			self.tableCompartments.setItem(i, 2, QtGui.QTableWidgetItem(str(CurCompartment.volume)))
 			self.tableCompartments.setItem(i, 3, QtGui.QTableWidgetItem(str(CurCompartment.volume)))
+			# Add compartment to comboBox used by Species and Reactions 
+			self.comboBoxCompartments.addItem(str(CurCompartment.getName()))
 		self.tableCompartments.resizeColumnsToContents()
 		
 		# Extract Species data from SBML Model
@@ -334,7 +378,8 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 			self.tableSpecies.setItem(i, 2, QtGui.QTableWidgetItem(str(CurSpecies.initial_amount)))
 			self.tableSpecies.setItem(i, 3, QtGui.QTableWidgetItem(str(CurSpecies.initial_amount)))
 			self.tableSpecies.setItem(i, 4, QtGui.QTableWidgetItem(str(CurSpecies.compartment)))
-			self.tableSpecies.setItem(i, 5, QtGui.QTableWidgetItem(str(CurSpecies.boundary_condition)))
+			FooBox = QtGui.QCheckBox(); FooBox.setChecked(CurSpecies.boundary_condition)
+			self.tableSpecies.setCellWidget(i, 5, FooBox)
 			self.tableSpecies.setItem(i, 6, QtGui.QTableWidgetItem(str(CurSpecies.getMetaId())))
 		self.tableSpecies.resizeColumnsToContents()
 		
@@ -488,7 +533,7 @@ class ExampleApp(QtGui.QMainWindow, design.Ui_MainWindow):
 		return None
 	
 	# Assemble data from QTableWidget into numpy array datatype	
-	def getTableData(self, QTableWidget, MinColIndex=0, MinRowIndex=0, MaxColIndex=0, MaxRowIndex=0):
+	def getTableData(self, QTableWidget, MinRowIndex=0, MinColIndex=0, MaxRowIndex=0, MaxColIndex=0):
 		
 		RowRange = range(MaxRowIndex-MinRowIndex)
 		ColRange = range(MaxColIndex-MinColIndex)

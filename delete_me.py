@@ -1,6 +1,3 @@
-nameIndexDictionary = {'Model':1,'Compartments':2}
+from PyQt4 import QtGui
 
-print nameIndexDictionary['Model']
-
-sample_Name = "Model"
 

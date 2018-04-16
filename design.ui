@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>682</width>
-    <height>574</height>
+    <width>715</width>
+    <height>582</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,12 +21,24 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout_9">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QTreeWidget" name="treeWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
@@ -149,13 +161,6 @@
                <string>Details</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_3">
-               <item row="1" column="0">
-                <widget class="QPlainTextEdit" name="modelErrorLog">
-                 <property name="readOnly">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_2">
                  <item row="0" column="0">
@@ -171,24 +176,30 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="4">
-                  <widget class="QLineEdit" name="lineEditVolumeUnits">
-                   <property name="text">
-                    <string>ml</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
+                 <item row="0" column="1">
                   <widget class="QLineEdit" name="lineEditTimeUnits">
                    <property name="text">
                     <string>s</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="2">
-                  <widget class="QLineEdit" name="lineEditQuantityUnits">
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_3">
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
                    <property name="text">
-                    <string>mmol</string>
+                    <string>Volume Unit</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="QLineEdit" name="lineEditVolumeUnits">
+                   <property name="text">
+                    <string>ml</string>
                    </property>
                   </widget>
                  </item>
@@ -202,36 +213,10 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="3">
-                  <widget class="QLabel" name="label_3">
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEditQuantityUnits">
                    <property name="text">
-                    <string>Volume Unit</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="3">
-                  <widget class="QLabel" name="label_6">
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="text">
-                    <string>Current Time</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QLineEdit" name="lineEdit_5">
-                   <property name="text">
-                    <string>0</string>
+                    <string>mmol</string>
                    </property>
                   </widget>
                  </item>
@@ -245,7 +230,27 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="4">
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_5">
+                   <property name="text">
+                    <string>0</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="2">
+                  <widget class="QLabel" name="label_6">
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="text">
+                    <string>Current Time</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="3">
                   <widget class="QLineEdit" name="lineEdit_6">
                    <property name="text">
                     <string>0</string>
@@ -257,7 +262,39 @@
                  </item>
                 </layout>
                </item>
+               <item row="1" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="Line" name="line_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
                <item row="2" column="0">
+                <widget class="QLabel" name="label_24">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Error Log</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QPlainTextEdit" name="modelErrorLog">
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
                 <layout class="QGridLayout" name="gridLayout_4">
                  <item row="0" column="0">
                   <widget class="QPushButton" name="pushButtonModelCommit">
@@ -296,11 +333,7 @@
               </attribute>
               <layout class="QGridLayout" name="gridLayout_15">
                <item row="0" column="0">
-                <widget class="QLabel" name="label_15">
-                 <property name="text">
-                  <string>Annotationn tab to be added</string>
-                 </property>
-                </widget>
+                <widget class="QPlainTextEdit" name="plainTextEdit"/>
                </item>
               </layout>
              </widget>
@@ -353,11 +386,6 @@
             <attribute name="verticalHeaderStretchLastSection">
              <bool>false</bool>
             </attribute>
-            <row>
-             <property name="text">
-              <string/>
-             </property>
-            </row>
             <column>
              <property name="text">
               <string>#</string>
@@ -369,7 +397,7 @@
               </font>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignLeft|AlignVCenter</set>
              </property>
             </column>
             <column>
@@ -383,7 +411,7 @@
               </font>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignLeft|AlignVCenter</set>
              </property>
             </column>
             <column>
@@ -397,7 +425,7 @@
               </font>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignLeft|AlignVCenter</set>
              </property>
             </column>
             <column>
@@ -411,24 +439,20 @@
               </font>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignLeft|AlignVCenter</set>
              </property>
             </column>
             <column>
              <property name="text">
               <string>MetaID</string>
              </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
             </column>
-            <item row="0" column="1">
-             <property name="text">
-              <string>New Compartment</string>
-             </property>
-            </item>
-            <item row="0" column="2">
-             <property name="text">
-              <string>1</string>
-             </property>
-            </item>
            </widget>
            <widget class="QPlainTextEdit" name="compartmentErrorLog">
             <property name="sizePolicy">
@@ -1149,7 +1173,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>682</width>
+     <width>715</width>
      <height>24</height>
     </rect>
    </property>
