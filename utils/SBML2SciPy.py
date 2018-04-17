@@ -109,13 +109,13 @@ def importSBMLFile( SciPyModel ):
     
     # Extract Parameter Data
     # -- Quantity, Names, Value, VectorIndex
-    SciPyModel.Parameters.Kinetic.Quantity = SBMLModel.getNumParameters()
+    SciPyModel.Parameters.Quantity = SBMLModel.getNumParameters()
     for i in range(SBMLModel.getNumParameters()):
         current_parameter = SBMLModel.getParameter(i)
-        SciPyModel.Parameters.Kinetic.Names.append(current_parameter.name)
-        SciPyModel.Parameters.Kinetic.Value.append(current_parameter.value)
-        SciPyModel.Parameters.Kinetic.VectorIndex.append(i)
-        SciPyModel.Parameters.Kinetic.MetaID.append(current_parameter.meta_id)
+        SciPyModel.Parameters.Names.append(current_parameter.name)
+        SciPyModel.Parameters.Value.append(current_parameter.value)
+        SciPyModel.Parameters.VectorIndex.append(i)
+        SciPyModel.Parameters.MetaID.append(current_parameter.meta_id)
     
     # Extract Reaction Data
     # -- Names, Formulas, Stoichiometry
@@ -172,16 +172,16 @@ def importSBMLFile( SciPyModel ):
         # Replace parameter names with index of vectorized parameter array.
         # Iterates through parameter names sorted by length of name.
         for key in sorted(
-                SciPyModel.Parameters.Kinetic.Names, key=len, reverse=True):
+                SciPyModel.Parameters.Names, key=len, reverse=True):
             if key != '':
                 Formula = Formula.replace(key, 'p[' + str(
-                    SciPyModel.Parameters.Kinetic.Names.index(key)) + ']')
+                    SciPyModel.Parameters.Names.index(key)) + ']')
 
         for key in sorted(
-                SciPyModel.Parameters.Kinetic.MetaID, key=len, reverse=True):
+                SciPyModel.Parameters.MetaID, key=len, reverse=True):
             if key != '':
                 Formula = Formula.replace(key, 'p[' + str(
-                    SciPyModel.Parameters.Kinetic.MetaID.index(key)) + ']')
+                    SciPyModel.Parameters.MetaID.index(key)) + ']')
 
         # Replace species names with index of species parameter array.
         for key in sorted(SciPyModel.Species.Names, key=len, reverse=True):
@@ -281,8 +281,8 @@ def createSciPyModel( ):
 
         def UpdateModel(self):
             self.Species.Quantity = len(self.Species.Names)
-            self.Parameters.Kinetic.Quantity = len(
-                             self.Parameters.Kinetic.Names)
+            self.Parameters.Quantity = len(
+                             self.Parameters.Names)
             self.Parameters.Other.Quantity = len(
                                self.Parameters.Other.Names)
             self.Compartments.Quantity = len(
@@ -303,26 +303,13 @@ def createSciPyModel( ):
     # Class to organize SciPyModel parameter information
     class Parameters:
         def __init__(self):
-            self.Kinetic = Kinetic()
-            self.Other = Other()
-
-    # Class to organize SciPyModel kinetic parameter information
-    class Kinetic:
-        def __init__(self):
             self.Quantity = None
             self.Names = []
             self.VectorIndex = []
             self.Value = []
             self.MetaID = []
-            
-    # Class to organize SciPyModel non-kinetic parameter information
-    class Other:
-        def __init__(self):
-            self.Quantity = None
-            self.Names = []
-            self.VectorIndex = []
-            self.Value = []
-            
+            self.KineticFlag = []
+
     # Class to organize SciPyModel compartment information
     class Compartments:
         def __init__(self):
@@ -514,7 +501,7 @@ def integrateODEFunction(SciPyModel):
     # Integrate using odeint method.
     SciPyModel.SimulationData.Deterministic.Data = (odeint(
         TempModule.ode_fun, SciPyModel.Species.Value,
-        tempTimeVector, args=(SciPyModel.Parameters.Kinetic.Value, )))
+        tempTimeVector, args=(SciPyModel.Parameters.Value, )))
 
     # Delete temporary file
     try:
