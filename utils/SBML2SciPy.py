@@ -1,12 +1,18 @@
-def importSBMLFile( SciPyModel, Provided_FilePath=None ):
+def importSBMLFile( SciPyModel ):
     ''' Reads an SBML model from a given file and unpacks the
-        SBML model into the provided SciPyModel object structure.  
+        SBML model into the provided SciPyModel object structure.
+        User may specify SBML model file path within SciPyModel
+        manually.
+        
+        To-Do
+        -----
+        Difficulty importing Copasi exported SBML models due to
+        difference in name/meta_id fields. Specific issue with
+        SBML models imported/exported through Copasi.
     
         Parameters
         ----------
         SciPyModel : object instance
-            Description needed.
-        Provided_FilePath : string, optional
             Description needed.
         
         Returns
@@ -25,30 +31,26 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
         encounters error, then the function returns an unmodified
         SciPyModel object.
     '''
-    
-    # Specify imports required by the function.
+
+    # Import required modules
     import libsbml, numpy, Tkinter, tkFileDialog
     
-    # Conditional check for provided filepath, if None then open
-    # Tkinter dialogue box.
-    if Provided_FilePath == None:
+    # Conditional to check if FilePath was specified
+    if SciPyModel.MetaData.FilePath == None:
         Tkinter.Tk().withdraw()
         SciPyModel.MetaData.FilePath = tkFileDialog.askopenfilename()
-    elif type(Provided_FilePath) == str:
-        SciPyModel.MetaData.FilePath = Provided_FilePath[0]
     else:
-        print 'ERROR: Unable to parse provided filepath.'
-        return SciPyModel
+        pass
     
     # Read in SBML model file into SBML Document variable
-    SBMLDoc = libsbml.readSBMLFromFile( SciPyModel.MetaData.FilePath )
-
+    SBMLDoc = libsbml.readSBMLFromFile(SciPyModel.MetaData.FilePath)
+    
     # Check if any major errors in reading SBML model
     # e.g. Filepath does not exist
     if SBMLDoc.getNumErrors() > 0:
         print('ERROR: File reading errors.')
         print(SBMLDoc.getErrorLog().toString())
-
+    
     # Make all parameters of the model global parameters.
     # Enables all parameters to be vectorized.
     Properties = libsbml.ConversionProperties()
@@ -56,7 +58,7 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
     if SBMLDoc.convert(Properties) != libsbml.LIBSBML_OPERATION_SUCCESS:
         print('ERROR: Unable to convert parameters to global.')
         print(SBMLDoc.getErrorLog().toString())
-
+    
     # Write out all reaction-specific function definitions.
     # Enables all variables in reactions to be swapped with vectorized
     # versions.
@@ -65,7 +67,7 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
     if SBMLDoc.convert(Properties) != libsbml.LIBSBML_OPERATION_SUCCESS:
         print('ERROR: Unable to expand internal function usage.')
         print(SBMLDoc.getErrorLog().toString())
-
+    
     # Write out all state variable and parameter initializations.
     # Enables this data to be placed into required SciPyModel object
     # places.
@@ -74,26 +76,27 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
     if SBMLDoc.convert(Properties) != libsbml.LIBSBML_OPERATION_SUCCESS:
         print('ERROR: Unable to expand initial assignments.')
         print(SBMLDoc.getErrorLog().toString())
-        
+    
     # Extract SBML Model object from SBML Document object.
     SBMLModel = SBMLDoc.getModel()
     
-    # Extract MetaData data from SBML model
+    # Extract MetaData
     # -- Name, VolumeUnits, SubstanceUnits, TimeUnits
     SciPyModel.MetaData.Name = SBMLModel.getName()
     SciPyModel.MetaData.VolumeUnits = SBMLModel.getVolumeUnits()
     SciPyModel.MetaData.SubstanceUnits = SBMLModel.getSubstanceUnits()
     SciPyModel.MetaData.TimeUnits = SBMLModel.getTimeUnits()
     
-    # Extract Compartment data from SBML model
+    # Extract Compartment Data
     # -- Quantity, Names, VectorIndex
     SciPyModel.Compartments.Quantity = SBMLModel.getNumCompartments()
     for i in range(SBMLModel.getNumCompartments()):
         current_compartment = SBMLModel.getCompartment(i)
         SciPyModel.Compartments.Names.append(current_compartment.name)
         SciPyModel.Compartments.VectorIndex.append(i)
-
-    # Extract Species data from SBML Model
+        SciPyModel.Compartments.MetaID.append(current_compartment.meta_id)
+    
+    # Extract Species Data
     # -- Quanity, Names, Value, VectorIndex, BoundaryValue
     SciPyModel.Species.Quantity = SBMLModel.getNumSpecies()
     for i in range(SBMLModel.getNumSpecies()):
@@ -101,10 +104,10 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
         SciPyModel.Species.Names.append(current_species.name)
         SciPyModel.Species.Value.append(current_species.initial_amount)
         SciPyModel.Species.VectorIndex.append(i)
-        SciPyModel.Species.BoundaryValue.append(
-            current_species.boundary_condition)
-
-    # Extract Parameter data from SBML Model
+        SciPyModel.Species.BoundaryValue.append(current_species.boundary_condition)
+        SciPyModel.Species.MetaID.append(current_species.meta_id)
+    
+    # Extract Parameter Data
     # -- Quantity, Names, Value, VectorIndex
     SciPyModel.Parameters.Kinetic.Quantity = SBMLModel.getNumParameters()
     for i in range(SBMLModel.getNumParameters()):
@@ -112,11 +115,13 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
         SciPyModel.Parameters.Kinetic.Names.append(current_parameter.name)
         SciPyModel.Parameters.Kinetic.Value.append(current_parameter.value)
         SciPyModel.Parameters.Kinetic.VectorIndex.append(i)
-
-    # Extract Reaction data from SBML Model
+        SciPyModel.Parameters.Kinetic.MetaID.append(current_parameter.meta_id)
+    
+    # Extract Reaction Data
     # -- Names, Formulas, Stoichiometry
-    SciPyModel.Reactions.Stoichiometry = numpy.zeros( [SBMLModel.getNumSpecies(),
-                                                       SBMLModel.getNumReactions() ] )
+    SciPyModel.Reactions.Stoichiometry = numpy.zeros(
+        [SBMLModel.getNumSpecies(),
+         SBMLModel.getNumReactions()])
     SciPyModel.Reactions.Quantity = SBMLModel.getNumReactions()
     for i in range(SBMLModel.getNumReactions()):
         current_reaction = SBMLModel.getReaction(i)
@@ -124,13 +129,29 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
         SciPyModel.Reactions.Formulas.append(
             current_reaction.getKineticLaw().getFormula())
 
-        for r in current_reaction.getListOfReactants():
-            SciPyModel.Reactions.Stoichiometry[SciPyModel.Species.Names.index(
-                r.getSpecies()), i] -= r.getStoichiometry()
+        # Try-Except in order to see if Names or MetaID are used in the functions
+        try:
+            for r in current_reaction.getListOfReactants():
+                SciPyModel.Reactions.Stoichiometry[SciPyModel.Species.Names.index(
+                    r.getSpecies()), i] -= r.getStoichiometry()
+            for p in current_reaction.getListOfProducts():
+                SciPyModel.Reactions.Stoichiometry[SciPyModel.Species.Names.index(
+                    p.getSpecies()), i] += p.getStoichiometry()
+        except ValueError:
+            for r in current_reaction.getListOfReactants():
+                SciPyModel.Reactions.Stoichiometry[SciPyModel.Species.MetaID.index(
+                    r.getSpecies()), i] -= r.getStoichiometry()
+            for p in current_reaction.getListOfProducts():
+                SciPyModel.Reactions.Stoichiometry[SciPyModel.Species.MetaID.index(
+                    p.getSpecies()), i] += p.getStoichiometry()
+        else:
+            print 'ERROR: Unable to create Stoichiometric Matrix. Check species name/metaid.'
 
-        for p in current_reaction.getListOfProducts():
-            SciPyModel.Reactions.Stoichiometry[SciPyModel.Species.Names.index(
-                p.getSpecies()), i] += p.getStoichiometry()
+        # Remove Stoichiometry of Boundary State Variables
+        for s in range(SciPyModel.Species.Quantity):
+            if SciPyModel.Species.BoundaryValue[s]:
+                SciPyModel.Reactions.Stoichiometry[s, :] = numpy.zeros(
+                    (1, SciPyModel.Reactions.Quantity))
 
     # Vectorize Functions within SciPyModel object.
     for rxn_ix in range(SciPyModel.Reactions.Quantity):
@@ -140,24 +161,38 @@ def importSBMLFile( SciPyModel, Provided_FilePath=None ):
 
         # Removes usage of compartments from reaction equations.
         for j in reversed(range(SciPyModel.Compartments.Quantity)):
-            Formula = Formula.replace(SciPyModel.Compartments.Names[j] + ' * ',
-                                      '')
-            Formula = Formula.replace(' * ' + SciPyModel.Compartments.Names[j],
-                                      '')
-            Formula = Formula.replace(' / ' + SciPyModel.Compartments.Names[j],
-                                      '')
+            if SciPyModel.Compartments.Names[j] != '':  # If name isn't empty
+                Formula = Formula.replace(SciPyModel.Compartments.Names[j] + ' * ',
+                                          '')
+                Formula = Formula.replace(' * ' + SciPyModel.Compartments.Names[j],
+                                          '')
+                Formula = Formula.replace(' / ' + SciPyModel.Compartments.Names[j],
+                                          '')
+
         # Replace parameter names with index of vectorized parameter array.
         # Iterates through parameter names sorted by length of name.
         for key in sorted(
                 SciPyModel.Parameters.Kinetic.Names, key=len, reverse=True):
-            Formula = Formula.replace(
-                key,
-                'p[' + str(SciPyModel.Parameters.Kinetic.Names.index(key)) + ']')
+            if key != '':
+                Formula = Formula.replace(key, 'p[' + str(
+                    SciPyModel.Parameters.Kinetic.Names.index(key)) + ']')
+
+        for key in sorted(
+                SciPyModel.Parameters.Kinetic.MetaID, key=len, reverse=True):
+            if key != '':
+                Formula = Formula.replace(key, 'p[' + str(
+                    SciPyModel.Parameters.Kinetic.MetaID.index(key)) + ']')
 
         # Replace species names with index of species parameter array.
         for key in sorted(SciPyModel.Species.Names, key=len, reverse=True):
-            Formula = Formula.replace(
-                key, 'y[' + str(SciPyModel.Species.Names.index(key)) + ']')
+            if key != '':
+                Formula = Formula.replace(
+                    key, 'y[' + str(SciPyModel.Species.Names.index(key)) + ']')
+
+        for key in sorted(SciPyModel.Species.MetaID, key=len, reverse=True):
+            if key != '':
+                Formula = Formula.replace(
+                    key, 'y[' + str(SciPyModel.Species.MetaID.index(key)) + ']')
 
         # Reset formula declaration in SciPyModel class
         SciPyModel.Reactions.Formulas[rxn_ix] = Formula
@@ -204,7 +239,7 @@ def createSciPyModel( ):
         |--TimeUnits
         |-Species
         |--Quantity, Names, VectorIndex, Value
-        |--BoundaryCondition
+        |--BoundaryCondition, MetaID
         |-Parameters
         |--Kinetic
         |---Quantity, Names, VectorIndex, Value
@@ -263,6 +298,7 @@ def createSciPyModel( ):
             self.VectorIndex = []
             self.Value = []
             self.BoundaryValue = []
+            self.MetaID = []
 
     # Class to organize SciPyModel parameter information
     class Parameters:
@@ -277,6 +313,7 @@ def createSciPyModel( ):
             self.Names = []
             self.VectorIndex = []
             self.Value = []
+            self.MetaID = []
             
     # Class to organize SciPyModel non-kinetic parameter information
     class Other:
@@ -293,6 +330,7 @@ def createSciPyModel( ):
             self.Names = []
             self.VectorIndex = []
             self.Value = []
+            self.MetaID = []
 
     # Class to organize SciPyModel reaction information
     class Reactions:
@@ -445,17 +483,24 @@ def integrateODEFunction(SciPyModel):
         -----
         
     '''
+    # Import required packages
+    import datetime
+    
+    
     # Import NumPy, SciPy.integrate, pand packages.
     from scipy import integrate
     import numpy, pandas, os
 
     # Write derivative function to file.
-    open('temp.py', 'w+').write(SciPyModel.ToolboxFunctions.DerivativeFunction)
-
+    TempName = (SciPyModel.MetaData.Name
+                +datetime.datetime.now().strftime("%I%M%p%B%d%Y")
+                +'.py')
+    open(TempName, 'w+').write(SciPyModel.ToolboxFunctions.DerivativeFunction)
+    
     # Import derivative function from temporary file.
-    from temp import ode_fun
+    TempModule = __import__(TempName[:-3])
 
-    # Check if time vector data is specified
+    # Check if time vector data is specified -   
     try:
         # Create time vector.
         tempTimeVector = numpy.linspace(
@@ -466,13 +511,17 @@ def integrateODEFunction(SciPyModel):
         print "ERROR: Check time data values in SciPyModel object."
         return
 
-    # Integrate using odeint method. Store as a Pandas dataframe within SciPyModel object.
-    SciPyModel.SimulationData.Deterministic.Data = integrate.odeint(
-                ode_fun, SciPyModel.Species.Value, tempTimeVector, 
-                args=(SciPyModel.Parameters.Kinetic.Value,) 
-                )
+    # Integrate using odeint method.
+    SciPyModel.SimulationData.Deterministic.Data = (odeint(
+        TempModule.ode_fun, SciPyModel.Species.Value,
+        tempTimeVector, args=(SciPyModel.Parameters.Kinetic.Value, )))
 
     # Delete temporary file
-    os.remove('temp.py')
+    try:
+        os.remove(TempName)
+    except OSError:
+        print 'ERROR: Temporary file has already been deleted.'
+    else:
+        print 'ERROR: Unknown error. Unable to remove '+TempName
     
     return SciPyModel
