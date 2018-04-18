@@ -386,6 +386,9 @@ def writeODEFunction( SciPyModel ):
         -----
         
     '''
+    # Enable printing of full sized numpy arrays/matrix
+    import numpy
+    numpy.set_printoptions(threshold=numpy.nan)
     
     # Write header information for the derivative function file.
     generated_code = bytearray('')
