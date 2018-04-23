@@ -347,7 +347,7 @@ def createSciPyModel( ):
     class ToolboxFunctions:
         def __init__(self):
             self.DerivativeFunction = None
-            self.NullSpaceFunction = None
+            self.NullSpace = None
     
     # Call Model class to return empty SciPyModel
     return Model()
