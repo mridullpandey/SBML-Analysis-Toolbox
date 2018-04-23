@@ -201,6 +201,28 @@ def importSBMLFile( SciPyModel ):
         # Reset formula declaration in SciPyModel class
         SciPyModel.Reactions.Formulas[rxn_ix] = Formula
     
+    # Grab indecies of kinetic rate constant parameters
+    ReactionIndex = []
+    for rxn_ix in range(SciPyModel.Reactions.Quantity):
+        ReactionIndex.append(
+            int(SciPyModel.Reactions.Formulas[rxn_ix].split(']')[0].split('[')[
+                -1]))
+
+    # Order the parameters and track the internal index ordering
+    SortedIndex = [
+        i[0] for i in sorted(enumerate(ReactionIndex), key=lambda x: x[1])
+    ]
+
+    # Apply the index ordering to order the formula vector
+    SciPyModel.Reactions.Formulas = [
+        SciPyModel.Reactions.Formulas[i] for i in SortedIndex
+    ]
+
+    # Apply the index ordering to order the stoichiometry matrix
+    SciPyModel.Reactions.Stoichiometry = numpy.vstack([
+        SciPyModel.Reactions.Stoichiometry[:, i] for i in SortedIndex
+    ]).transpose()
+    
     return SciPyModel
            
 

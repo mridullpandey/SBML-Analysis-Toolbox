@@ -203,7 +203,7 @@
 </compartment>
 </listOfCompartments>
 <listOfSpecies>
-<species metaid="s1" id="s1" name="Epidermal_Signal" compartment="c1" initialAmount="0">
+<species metaid="s1" id="s1" name="Epidermal_Signal" compartment="c1" initialAmount="1" hasOnlySubstanceUnits="true" charge="0">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>inside</celldesigner:positionToCompartment>
@@ -214,7 +214,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s2" id="s2" name="Dermal_Signal" compartment="default" initialAmount="0">
+<species metaid="s2" id="s2" name="Dermal_Signal" compartment="default" initialAmount="1" hasOnlySubstanceUnits="true" charge="0">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>inside</celldesigner:positionToCompartment>
@@ -225,7 +225,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s3" id="s3" name="Collagen" compartment="c1" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
+<species metaid="s3" id="s3" name="Collagen" compartment="c1" initialAmount="1" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>transmembrane</celldesigner:positionToCompartment>
@@ -240,7 +240,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s4" id="s4" name="Fibronectin" compartment="c1" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
+<species metaid="s4" id="s4" name="Fibronectin" compartment="c1" initialAmount="1" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>transmembrane</celldesigner:positionToCompartment>
