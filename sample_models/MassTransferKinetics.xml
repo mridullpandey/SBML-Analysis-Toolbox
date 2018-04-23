@@ -168,27 +168,27 @@
 <listOfUnitDefinitions>
 <unitDefinition metaid="substance" id="substance" name="substance">
 <listOfUnits>
-<unit metaid="CDMT00001" kind="mole"/>
+<unit metaid="CDMT00002" kind="mole"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="volume" id="volume" name="volume">
 <listOfUnits>
-<unit metaid="CDMT00002" kind="litre"/>
+<unit metaid="CDMT00003" kind="litre"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="area" id="area" name="area">
 <listOfUnits>
-<unit metaid="CDMT00003" kind="metre" exponent="2"/>
+<unit metaid="CDMT00004" kind="metre" exponent="2"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="length" id="length" name="length">
 <listOfUnits>
-<unit metaid="CDMT00004" kind="metre"/>
+<unit metaid="CDMT00005" kind="metre"/>
 </listOfUnits>
 </unitDefinition>
 <unitDefinition metaid="time" id="time" name="time">
 <listOfUnits>
-<unit metaid="CDMT00005" kind="second"/>
+<unit metaid="CDMT00020" kind="second"/>
 </listOfUnits>
 </unitDefinition>
 </listOfUnitDefinitions>
@@ -225,7 +225,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s3" id="s3" name="Collagen" compartment="c1" initialAmount="0">
+<species metaid="s3" id="s3" name="Collagen" compartment="c1" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>transmembrane</celldesigner:positionToCompartment>
@@ -240,7 +240,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s4" id="s4" name="Fibronectin" compartment="c1" initialAmount="0">
+<species metaid="s4" id="s4" name="Fibronectin" compartment="c1" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>transmembrane</celldesigner:positionToCompartment>
@@ -255,7 +255,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s5" id="s5" name="Source" compartment="default" initialAmount="0">
+<species metaid="s5" id="s5" name="Source" compartment="default" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>inside</celldesigner:positionToCompartment>
@@ -266,7 +266,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s6" id="s6" name="Sink" compartment="default" initialAmount="0">
+<species metaid="s6" id="s6" name="Sink" compartment="default" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>inside</celldesigner:positionToCompartment>
@@ -277,7 +277,7 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s7" id="s7" name="Sink" compartment="c1" initialAmount="0">
+<species metaid="s7" id="s7" name="Sink" compartment="c1" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="true" charge="0" constant="true">
 <annotation>
 <celldesigner:extension>
 <celldesigner:positionToCompartment>innerSurface</celldesigner:positionToCompartment>
@@ -290,10 +290,16 @@
 </species>
 </listOfSpecies>
 <listOfParameters>
-<parameter metaid="k_Prod_Signal" id="k_Prod_Signal" name="k_Prod_Signal" value="1" units="substance"/>
+<parameter metaid="k_Prod_Signal" id="k_Prod_SD" name="k_Prod_SD" value="1" units="substance"/>
+<parameter metaid="k_Clnc_Signal" id="k_Clnc_SD" name="k_Clnc_SD" value="1" units="substance"/>
+<parameter metaid="k_MT_Dermis_Epidermis_Signal" id="k_MT_SD_SE" name="k_MT_SD_SE" value="1" units="substance"/>
+<parameter metaid="k_MT_Epidermis_Dermis_Signal" id="k_MT_SE_SD" name="k_MT_SE_SD" value="1" units="substance"/>
+<parameter metaid="k_Clnc_Signal_Epidermis" id="k_Clnc_SE" name="k_Clnc_SE" value="1" units="substance"/>
+<parameter metaid="E_Fibronectin" id="E_Fibronectin" name="E_Fibronectin" value="1" units="substance"/>
+<parameter metaid="E_Collagen" id="E_Collagen" name="E_Collagen" value="1" units="substance"/>
 </listOfParameters>
 <listOfReactions>
-<reaction metaid="re1" id="re1" name="Dermis_to_Epidermis" reversible="false">
+<reaction metaid="re1" id="re1" name="Dermis_to_Epidermis" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:name>Dermis_to_Epidermis</celldesigner:name>
@@ -326,7 +332,7 @@
 </celldesigner:linkTarget>
 <celldesigner:line width="1.0" color="ff000000"/>
 </celldesigner:modification>
-<celldesigner:modification type="CATALYSIS" modifiers="s4" aliases="sa4" targetLineIndex="-1,3" editPoints="-0.003957060603184903,-0.034226595687246286 0.8445491913972374,-0.13232547446641485 0.8616964540110368,0.0159897735116441">
+<celldesigner:modification type="CATALYSIS" modifiers="s4" aliases="sa4" targetLineIndex="-1,3" editPoints="-0.003957060603184903,-0.03422659568724673 0.8445491913972372,-0.1323254744664153 0.8616964540110366,0.015989773511644212">
 <celldesigner:connectScheme connectPolicy="square">
 <celldesigner:listOfLineDirection>
 <celldesigner:lineDirection index="0" value="vertical"/>
@@ -377,10 +383,41 @@
 </annotation>
 </modifierSpeciesReference>
 </listOfModifiers>
+<kineticLaw metaid="CDMT00001">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<divide/>
+<apply>
+<times/>
+<apply>
+<divide/>
+<apply>
+<times/>
+<ci> k_MT_SD_SE </ci>
+<ci> s2 </ci>
+<ci> E_Collagen </ci>
+</apply>
+<apply>
+<plus/>
+<ci> E_Collagen </ci>
+<ci> s3 </ci>
+</apply>
+</apply>
+<ci> s4 </ci>
+</apply>
+<apply>
+<plus/>
+<ci> E_Fibronectin </ci>
+<ci> s4 </ci>
+</apply>
+</apply>
+</math>
+</kineticLaw>
 </reaction>
-<reaction metaid="re3" id="re3" reversible="false">
+<reaction metaid="re3" id="re3" name="Dermal_Clearance" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
+<celldesigner:name>Dermal_Clearance</celldesigner:name>
 <celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
 <celldesigner:baseReactants>
 <celldesigner:baseReactant species="s2" alias="sa2">
@@ -416,8 +453,17 @@
 </annotation>
 </speciesReference>
 </listOfProducts>
+<kineticLaw metaid="CDMT00021">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<times/>
+<ci> k_Clnc_SD </ci>
+<ci> s2 </ci>
+</apply>
+</math>
+</kineticLaw>
 </reaction>
-<reaction metaid="re4" id="re4" name="Epidermis_to_Dermis" reversible="false">
+<reaction metaid="re4" id="re4" name="Epidermis_to_Dermis" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:name>Epidermis_to_Dermis</celldesigner:name>
@@ -439,7 +485,7 @@
 </celldesigner:connectScheme>
 <celldesigner:line width="1.0" color="ff000000"/>
 <celldesigner:listOfModification>
-<celldesigner:modification type="INHIBITION" modifiers="s3" aliases="sa3" targetLineIndex="-1,3" editPoints="-0.013797338829455441,-0.12271643625208895 0.823275280472429,-0.21683076116324174 0.8495559258618679,0.016914831697879107">
+<celldesigner:modification type="INHIBITION" modifiers="s3" aliases="sa3" targetLineIndex="-1,3" editPoints="-0.013797338829455552,-0.12271643625208906 0.823275280472429,-0.21683076116324185 0.8495559258618679,0.016914831697879107">
 <celldesigner:connectScheme connectPolicy="square">
 <celldesigner:listOfLineDirection>
 <celldesigner:lineDirection index="0" value="vertical"/>
@@ -501,8 +547,38 @@
 </annotation>
 </modifierSpeciesReference>
 </listOfModifiers>
+<kineticLaw metaid="CDMT00022">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<divide/>
+<apply>
+<times/>
+<apply>
+<divide/>
+<apply>
+<times/>
+<ci> k_MT_SE_SD </ci>
+<ci> s1 </ci>
+<ci> E_Collagen </ci>
+</apply>
+<apply>
+<plus/>
+<ci> E_Collagen </ci>
+<ci> s3 </ci>
+</apply>
+</apply>
+<ci> s4 </ci>
+</apply>
+<apply>
+<plus/>
+<ci> E_Fibronectin </ci>
+<ci> s4 </ci>
+</apply>
+</apply>
+</math>
+</kineticLaw>
 </reaction>
-<reaction metaid="re5" id="re5" name="Epidermal_Clearance" reversible="false">
+<reaction metaid="re5" id="re5" name="Epidermal_Clearance" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:name>Epidermal_Clearance</celldesigner:name>
@@ -541,8 +617,17 @@
 </annotation>
 </speciesReference>
 </listOfProducts>
+<kineticLaw metaid="CDMT00023">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<times/>
+<ci> k_Clnc_SE </ci>
+<ci> s1 </ci>
+</apply>
+</math>
+</kineticLaw>
 </reaction>
-<reaction metaid="re6" id="re6" name="Production_Signal" reversible="false">
+<reaction metaid="re6" id="re6" name="Production_Signal" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
 <celldesigner:name>Production_Signal</celldesigner:name>
@@ -583,6 +668,11 @@
 </annotation>
 </speciesReference>
 </listOfProducts>
+<kineticLaw metaid="CDMT00024">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<ci> k_Prod_SD </ci>
+</math>
+</kineticLaw>
 </reaction>
 </listOfReactions>
 </model>

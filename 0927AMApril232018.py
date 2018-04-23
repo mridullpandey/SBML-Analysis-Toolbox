@@ -11,7 +11,7 @@ def ode_fun( y, t, p ):
     # Epidermis_to_Dermis
     rxn[2] = p[3] * y[0] * p[6] / (p[6] + y[2]) * y[3] / (p[5] + y[3])
     # Epidermal_Clearance
-    rxn[3] = p[4] * y[0]
+    rxn[3] = p[1]_y[0]
     # Production_Signal
     rxn[4] = p[0]
 
@@ -19,9 +19,9 @@ def ode_fun( y, t, p ):
        [-1., -1.,  1.,  0.,  1.],
        [ 0.,  0.,  0.,  0.,  0.],
        [ 0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.]])
+       [ 0.,  0.,  0.,  0., -1.],
+       [ 0.,  1.,  0.,  0.,  0.],
+       [ 0.,  0.,  0.,  1.,  0.]])
     
     dy = S.dot(rxn) 
     return dy 
@@ -37,7 +37,7 @@ def rxn_fun( y, t, p ):
     # Epidermis_to_Dermis
     rxn[2] = p[3] * y[0] * p[6] / (p[6] + y[2]) * y[3] / (p[5] + y[3])
     # Epidermal_Clearance
-    rxn[3] = p[4] * y[0]
+    rxn[3] = p[1]_y[0]
     # Production_Signal
     rxn[4] = p[0]
     return rxn 
