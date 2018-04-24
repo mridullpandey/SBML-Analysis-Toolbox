@@ -1,14 +1,18 @@
 def importSBMLFile( SciPyModel ):
-    ''' Reads an SBML model from a given file and unpacks the
+    ''' 
+        Reads an SBML model from a given file and unpacks the
         SBML model into the provided SciPyModel object structure.
         User may specify SBML model file path within SciPyModel
         manually.
         
         To-Do
         -----
-        Difficulty importing Copasi exported SBML models due to
-        difference in name/meta_id fields. Specific issue with
-        SBML models imported/exported through Copasi.
+        1. Difficulty importing Copasi exported SBML models due to
+           difference in name/meta_id fields. Specific issue with
+           SBML models imported/exported through Copasi.
+           
+        2. Write code to inform user of required fields to be
+           filled out.
     
         Parameters
         ----------
@@ -242,6 +246,9 @@ def createSciPyModel( ):
         3. Implement a "ValidateModel" method into the SciPyModel
            object itself. Will help users to mitigate import 
            errors.
+           
+        4. Begin process of switching from custom class structure
+           to Qt4 class structure for easier implementations.
 
         Parameters
         ----------
@@ -257,32 +264,6 @@ def createSciPyModel( ):
         
         Notes
         -----
-        The SciPyModel object structure is as follows:
-
-        -Model
-        |-MetaData
-        |--FilePath, Name, VolumeUnits, SubstanceUnits 
-        |--TimeUnits
-        |-Species
-        |--Quantity, Names, VectorIndex, Value
-        |--BoundaryCondition, MetaID
-        |-Parameters
-        |--Kinetic
-        |---Quantity, Names, VectorIndex, Value
-        |--Other
-        |---Quantity, Names, VectorIndex, Value
-        |-Compartments
-        |--Quantity, Names, VectorIndex, Value
-        |-Reactions
-        |--Quantity, Names, Formulas
-        |--Stoichiometry
-        |-SimulationData
-        |--TimeStart
-        |--TimeEnd
-        |--DataPoints
-        |--Deterministic
-        |-ToolboxFunctions
-        |--DerivativeFunction
     '''
     
     # Class to create SciPyModel object
@@ -335,6 +316,9 @@ def createSciPyModel( ):
             self.Value = []
             self.MetaID = []
             self.KineticFlag = []
+            self.MinimumValue = []
+            self.MaximumValue = []
+            self.NullSpaceDimension = None
 
     # Class to organize SciPyModel compartment information
     class Compartments:
@@ -360,8 +344,25 @@ def createSciPyModel( ):
             self.TimeEnd = None
             self.DataPoints = None
             self.Deterministic = Deterministic()
+            self.Sensitivity = Sensitivity()
     
     class Deterministic:
+        def __init__(self):
+            self.Data = None
+            self.TimeVector = None
+            
+    class Sensitivity:
+        def __init__(self):
+            self.Global = Global()
+            self.Local = Local()
+    
+    class Global:
+        def __init__(self):
+            self.NumSamples = None
+            self.Data = None
+            self.ParameterSets = None
+    
+    class Local:
         def __init__(self):
             self.Data = None
     
@@ -377,7 +378,8 @@ def createSciPyModel( ):
 
 
 def writeODEFunction( SciPyModel ):
-    ''' Create a derivative function from the provided 
+    ''' 
+        Create a derivative function from the provided 
         SciPyModel as a basis for other internal packaged
         methods. The derivative function is stored as a 
         bytearray and written to a file when needed to be
@@ -441,7 +443,6 @@ def writeODEFunction( SciPyModel ):
     generated_code.extend('    dy = S.dot(rxn) \n')
     generated_code.extend('    return dy \n')
     
-    
     # Write function definition for reactions -- edit this to isolate shape/kinetic parameters
     generated_code.extend('\n')
     generated_code.extend('\n')
@@ -468,7 +469,8 @@ def writeODEFunction( SciPyModel ):
 
 
 def integrateODEFunction(SciPyModel):
-    ''' Integrate the derivative function from the provided
+    ''' 
+        Integrate the derivative function from the provided
         SciPyModel deterministically between the specified 
         bounds. The resulting data is stored within the 
         SciPyModel structure for further analysis,
@@ -476,11 +478,13 @@ def integrateODEFunction(SciPyModel):
         
         The function uses the SciPy.integrate method odeint
         to perform the integration. The method is robust
-        for both stiff and non-stiff models.
+        for both stiff and non-stiff models (LSODA).
 
         To Do
         -----
-        
+        1. Possibly switch from odeint to ode in order to allow
+           user choice in integrator.
+        2. Check issues with deleting temp file.
 
         Parameters
         ----------
@@ -530,19 +534,22 @@ def integrateODEFunction(SciPyModel):
         TempModule.ode_fun, SciPyModel.Species.Value,
         tempTimeVector, args=(SciPyModel.Parameters.Value, )))
 
+    SciPyModel.SimulationData.Deterministic.TimeVector = tempTimeVector
+    
     # Delete temporary file
-    try:
-        os.remove(TempName)
-    except OSError:
-        print 'ERROR: Temporary file has already been deleted.'
-    else:
-        print 'ERROR: Unknown error. Unable to remove '+TempName
+#     try:
+#         os.remove(TempName)
+#     except OSError:
+#         print 'ERROR: Temporary file has already been deleted.'
+#     else:
+#         print 'ERROR: Unknown error. Unable to remove '+TempName
     
     return SciPyModel
 
 
 def createNullSpaceFunction( SciPyModel ):
-    ''' Generate the NullSpace of the kinetic parameters
+    ''' 
+        Generate the NullSpace of the kinetic parameters
         (parameters which enter the derivative matrix
         linearly). The nullspace in this case can be used
         to solve the system for the steady-state condition.
@@ -553,7 +560,9 @@ def createNullSpaceFunction( SciPyModel ):
         To Do
         -----
         1. Implement a method for manually setting 
-        parameters to be considered kinetic parameters.
+           parameters to be considered kinetic parameters.
+        2. Investigate method for sampling using restriction
+           given by N*g = k > 0.
 
         Parameters
         ----------
@@ -570,6 +579,13 @@ def createNullSpaceFunction( SciPyModel ):
         
         Notes
         -----
+        The anonymous function can be called as follows:
+        
+        NullSpaceFunction( E, X )
+        
+        This produces a SymPy matrix of the nullspace 
+        given the desired steady state condition as specified
+        by the user choice in E and X.
         
     '''
 
@@ -611,6 +627,7 @@ def createNullSpaceFunction( SciPyModel ):
     
     # Obtain basis for nullspace
     NullBasis = M.nullspace()
+    SciPyModel.Parameters.NullSpaceDimension = len( NullBasis )
     
     # Assemble nullspace matrix from basis
     NullSpace = sympy.Matrix([NullBasis[i] for i in range(len(NullBasis))])
@@ -623,5 +640,106 @@ def createNullSpaceFunction( SciPyModel ):
         NullSpace,
         'numpy',
         dummify=False)
+    
+    return SciPyModel
+
+
+
+def sampleLHSU(SciPyModel):
+    ''' 
+        Create a uniform Latin-Hypercube sample of the parameter 
+        space as defined by the MinimumValue and MaximumValue
+        vectors.
+
+        To Do
+        -----
+        1. Add conditional check to inform user if required
+           inputs are not specified in SciPyModel.
+
+        Parameters
+        ----------
+        SciPyModel : internal object instance
+            Requires that 
+        
+        Returns
+        -------
+        SciPyModel : internal object instance
+            Places the generated parameter set into the field
+            SciPyModel.SimulationData.Sensitivity.Global.ParameterSets
+            
+        See Also
+        --------
+        sampleNullSpace
+        
+        Notes
+        -----
+        Be advised the resulting parameterization will not
+        remain at the desired steady state condition.
+    '''
+
+    # Uniform random sample array
+    RanSet = numpy.random.uniform(0, 1, [
+        SciPyModel.SimulationData.Sensitivity.Global.NumSamples,
+        SciPyModel.Parameters.Quantity
+    ])
+
+    # Initialization of sample array
+    SciPyModel.SimulationData.Sensitivity.Global.ParameterSets = numpy.zeros([
+        SciPyModel.SimulationData.Sensitivity.Global.NumSamples,
+        SciPyModel.Parameters.Quantity
+    ])
+
+    # For loop to divide sample space and ensure conditions are met
+    for x_idx in range(SciPyModel.Parameters.Quantity):
+        idx = numpy.random.permutation(
+            SciPyModel.SimulationData.Sensitivity.Global.NumSamples) + 1
+        P = (numpy.transpose(idx) - RanSet[:, x_idx]
+             ) / SciPyModel.SimulationData.Sensitivity.Global.NumSamples
+        SciPyModel.SimulationData.Sensitivity.Global.ParameterSets[:, x_idx] = xmin[x_idx] + P * (
+            SciPyModel.Parameters.MaximumValue[x_idx] -
+            SciPyModel.Parameters.MinimumValue[x_idx])
+
+    return SciPyModel
+
+
+def sampleNullSpace( SciPyModel ):
+    ''' 
+        Create a sample of the parameter space as defined 
+        by the MinimumValue and MaximumValue vectors.
+        
+        Samples are generated randomly in a one-at-a-time
+        approach which does not guarantee good representation
+        of the sample space.
+
+        To Do
+        -----
+        1. Add conditional check to inform user if required
+           inputs are not specified in SciPyModel.
+           
+        2. Implement a method to divide the shape parameter
+           sample space for better representation of the sample
+           space.
+
+        Parameters
+        ----------
+        SciPyModel : internal object instance
+            Requires that 
+        
+        Returns
+        -------
+        SciPyModel : internal object instance
+            Places the generated parameter set into the field
+            SciPyModel.SimulationData.Sensitivity.Global.ParameterSets
+            
+        See Also
+        --------
+        sampleLHSU
+        
+        Notes
+        -----
+        
+    '''
+        
+    
     
     return SciPyModel
