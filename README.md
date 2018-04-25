@@ -1,10 +1,13 @@
 # SBML-Sensitivity-Toolbox
 
-1. gui
-  Contains *.ui files created by Qt4 Designer as well as the compiled python version.
+1. extras
+  Contains files pertaining to the future implementation of a GUI for the SBML-Sensitivity-Toolbox.
 
-2. icon
-  Contains icon files used within the Qt GUI.
+2. notebooks
+  Contains Juyter notebooks providing sample workflows and describing implementations in-depth.
 
 3. utils
-  Contains the python function files created to be used within the Qt GUI.
+  Contains the Python function implementations which perform analysis methods.
+  
+4. sample_models
+  Contains an assortment of SBML models for testing of code to ensure consistency in application. 
