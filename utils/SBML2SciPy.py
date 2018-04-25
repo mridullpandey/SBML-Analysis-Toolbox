@@ -677,6 +677,8 @@ def sampleLHSU(SciPyModel):
         remain at the desired steady state condition.
     '''
 
+    import numpy
+
     # Uniform random sample array
     RanSet = numpy.random.uniform(0, 1, [
         SciPyModel.SimulationData.Sensitivity.Global.NumSamples,
@@ -695,9 +697,10 @@ def sampleLHSU(SciPyModel):
             SciPyModel.SimulationData.Sensitivity.Global.NumSamples) + 1
         P = (numpy.transpose(idx) - RanSet[:, x_idx]
              ) / SciPyModel.SimulationData.Sensitivity.Global.NumSamples
-        SciPyModel.SimulationData.Sensitivity.Global.ParameterSets[:, x_idx] = xmin[x_idx] + P * (
-            SciPyModel.Parameters.MaximumValue[x_idx] -
-            SciPyModel.Parameters.MinimumValue[x_idx])
+        SciPyModel.SimulationData.Sensitivity.Global.ParameterSets[:, x_idx] = (
+            SciPyModel.Parameters.MinimumValue[x_idx] + P *
+            (SciPyModel.Parameters.MaximumValue[x_idx] -
+             SciPyModel.Parameters.MinimumValue[x_idx]))
 
     return SciPyModel
 
