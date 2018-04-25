@@ -84,44 +84,6 @@
 </celldesigner:briefView>
 <celldesigner:info state="empty" angle="-1.5707963267948966"/>
 </celldesigner:speciesAlias>
-<celldesigner:speciesAlias id="sa11" species="s5">
-<celldesigner:activity>inactive</celldesigner:activity>
-<celldesigner:bounds x="325.0" y="117.5" w="70.0" h="25.0"/>
-<celldesigner:font size="12"/>
-<celldesigner:view state="usual"/>
-<celldesigner:usualView>
-<celldesigner:innerPosition x="0.0" y="0.0"/>
-<celldesigner:boxSize width="70.0" height="25.0"/>
-<celldesigner:singleLine width="1.0"/>
-<celldesigner:paint color="7fcccccc" scheme="Color"/>
-</celldesigner:usualView>
-<celldesigner:briefView>
-<celldesigner:innerPosition x="0.0" y="0.0"/>
-<celldesigner:boxSize width="80.0" height="60.0"/>
-<celldesigner:singleLine width="1.0"/>
-<celldesigner:paint color="3fff0000" scheme="Color"/>
-</celldesigner:briefView>
-<celldesigner:info state="empty" angle="-1.5707963267948966"/>
-</celldesigner:speciesAlias>
-<celldesigner:speciesAlias id="sa12" species="s2">
-<celldesigner:activity>inactive</celldesigner:activity>
-<celldesigner:bounds x="245.0" y="115.0" w="30.0" h="30.0"/>
-<celldesigner:font size="12"/>
-<celldesigner:view state="usual"/>
-<celldesigner:usualView>
-<celldesigner:innerPosition x="0.0" y="0.0"/>
-<celldesigner:boxSize width="30.0" height="30.0"/>
-<celldesigner:singleLine width="1.0"/>
-<celldesigner:paint color="ffffcccc" scheme="Color"/>
-</celldesigner:usualView>
-<celldesigner:briefView>
-<celldesigner:innerPosition x="0.0" y="0.0"/>
-<celldesigner:boxSize width="80.0" height="60.0"/>
-<celldesigner:singleLine width="1.0"/>
-<celldesigner:paint color="3fff0000" scheme="Color"/>
-</celldesigner:briefView>
-<celldesigner:info state="empty" angle="-1.5707963267948966"/>
-</celldesigner:speciesAlias>
 <celldesigner:speciesAlias id="sa14" species="s6">
 <celldesigner:activity>inactive</celldesigner:activity>
 <celldesigner:bounds x="485.0" y="117.5" w="70.0" h="25.0"/>
@@ -267,22 +229,6 @@
 </celldesigner:extension>
 </annotation>
 </species>
-<species metaid="s5" id="s5" name="W" compartment="default" initialAmount="1" hasOnlySubstanceUnits="true" charge="0">
-<annotation>
-<celldesigner:extension>
-<celldesigner:positionToCompartment>inside</celldesigner:positionToCompartment>
-<celldesigner:speciesIdentity>
-<celldesigner:class>UNKNOWN</celldesigner:class>
-<celldesigner:name>W</celldesigner:name>
-</celldesigner:speciesIdentity>
-<celldesigner:listOfCatalyzedReactions>
-<celldesigner:catalyzed reaction="re6"/>
-<celldesigner:catalyzed reaction="re7"/>
-<celldesigner:catalyzed reaction="re8"/>
-</celldesigner:listOfCatalyzedReactions>
-</celldesigner:extension>
-</annotation>
-</species>
 <species metaid="s6" id="s6" name="C" compartment="default" initialAmount="1" hasOnlySubstanceUnits="true" charge="0">
 <annotation>
 <celldesigner:extension>
@@ -301,26 +247,24 @@
 <parameter metaid="k3" id="k3" name="Kd Clearance" value="1" units="substance"/>
 <parameter metaid="k4" id="k4" name="C Production" value="1" units="substance"/>
 <parameter metaid="k5" id="k5" name="C Clearance" value="1" units="substance"/>
-<parameter metaid="k6" id="k6" name="W Clearance" value="5" units="substance"/>
-<parameter metaid="E1" id="E1" name="Kq Promoting Proliferation" value="0.25" units="substance"/>
-<parameter metaid="E2" id="E2" name="Kq Promoting C Production" value="0.25" units="substance"/>
-<parameter metaid="D1" id="D1" name="Kq Wounding" value="0.25" units="substance"/>
-<parameter metaid="D2" id="D2" name="Kd Wounding" value="0.25" units="substance"/>
-<parameter metaid="D3" id="D3" name="C Wounding" value="0.25" units="substance"/>
-<parameter metaid="D4" id="D4" name="W Promoting Wounding" value="0.25" units="substance"/>
-<parameter metaid="D5" id="D5" name="W Promoting Wounding of C" value="0.25" units="substance"/>
+<parameter metaid="E1" id="E1" name="Kq Promoting Proliferation" value="1" units="substance"/>
+<parameter metaid="E2" id="E2" name="Kq Promoting C Production" value="1" units="substance"/>
 </listOfParameters>
 <listOfReactions>
-<reaction metaid="re1" id="re1" name="Proliferation_Kq" reversible="false" fast="false">
+<reaction metaid="re5" id="re5" name="Clearance_C" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
-<celldesigner:name>Proliferation_Kq</celldesigner:name>
+<celldesigner:name>Clearance_C</celldesigner:name>
 <celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
 <celldesigner:baseReactants>
-<celldesigner:baseReactant species="s1" alias="sa8"/>
+<celldesigner:baseReactant species="s6" alias="sa14">
+<celldesigner:linkAnchor position="S"/>
+</celldesigner:baseReactant>
 </celldesigner:baseReactants>
 <celldesigner:baseProducts>
-<celldesigner:baseProduct species="s3" alias="sa1"/>
+<celldesigner:baseProduct species="s2" alias="sa17">
+<celldesigner:linkAnchor position="S"/>
+</celldesigner:baseProduct>
 </celldesigner:baseProducts>
 <celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">
 <celldesigner:listOfLineDirection>
@@ -331,84 +275,29 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00005" species="s1">
+<speciesReference metaid="CDMT00021" species="s6">
 <annotation>
 <celldesigner:extension>
-<celldesigner:alias>sa8</celldesigner:alias>
+<celldesigner:alias>sa14</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00006" species="s3">
+<speciesReference metaid="CDMT00022" species="s2">
 <annotation>
 <celldesigner:extension>
-<celldesigner:alias>sa1</celldesigner:alias>
+<celldesigner:alias>sa17</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
 </listOfProducts>
-<kineticLaw metaid="CDMT00015">
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<apply>
-<divide/>
-<apply>
-<times/>
-<ci> k1 </ci>
-<ci> s3 </ci>
-</apply>
-<apply>
-<plus/>
-<ci> s3 </ci>
-<ci> E1 </ci>
-</apply>
-</apply>
-</math>
-</kineticLaw>
-</reaction>
-<reaction metaid="re2" id="re2" name="Differentiation_Kq" reversible="false" fast="false">
-<annotation>
-<celldesigner:extension>
-<celldesigner:name>Differentiation_Kq</celldesigner:name>
-<celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
-<celldesigner:baseReactants>
-<celldesigner:baseReactant species="s3" alias="sa1"/>
-</celldesigner:baseReactants>
-<celldesigner:baseProducts>
-<celldesigner:baseProduct species="s4" alias="sa2"/>
-</celldesigner:baseProducts>
-<celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:line width="1.0" color="ff000000"/>
-</celldesigner:extension>
-</annotation>
-<listOfReactants>
-<speciesReference metaid="CDMT00001" species="s3">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa1</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfReactants>
-<listOfProducts>
-<speciesReference metaid="CDMT00002" species="s4">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa2</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfProducts>
-<kineticLaw metaid="CDMT00012">
+<kineticLaw metaid="CDMT00025">
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <apply>
 <times/>
-<ci> k2 </ci>
-<ci> s3 </ci>
+<ci> k5 </ci>
+<ci> s6 </ci>
 </apply>
 </math>
 </kineticLaw>
@@ -456,6 +345,53 @@
 <times/>
 <ci> k3 </ci>
 <ci> s4 </ci>
+</apply>
+</math>
+</kineticLaw>
+</reaction>
+<reaction metaid="re2" id="re2" name="Differentiation_Kq" reversible="false" fast="false">
+<annotation>
+<celldesigner:extension>
+<celldesigner:name>Differentiation_Kq</celldesigner:name>
+<celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
+<celldesigner:baseReactants>
+<celldesigner:baseReactant species="s3" alias="sa1"/>
+</celldesigner:baseReactants>
+<celldesigner:baseProducts>
+<celldesigner:baseProduct species="s4" alias="sa2"/>
+</celldesigner:baseProducts>
+<celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">
+<celldesigner:listOfLineDirection>
+<celldesigner:lineDirection index="0" value="unknown"/>
+</celldesigner:listOfLineDirection>
+</celldesigner:connectScheme>
+<celldesigner:line width="1.0" color="ff000000"/>
+</celldesigner:extension>
+</annotation>
+<listOfReactants>
+<speciesReference metaid="CDMT00001" species="s3">
+<annotation>
+<celldesigner:extension>
+<celldesigner:alias>sa1</celldesigner:alias>
+</celldesigner:extension>
+</annotation>
+</speciesReference>
+</listOfReactants>
+<listOfProducts>
+<speciesReference metaid="CDMT00002" species="s4">
+<annotation>
+<celldesigner:extension>
+<celldesigner:alias>sa2</celldesigner:alias>
+</celldesigner:extension>
+</annotation>
+</speciesReference>
+</listOfProducts>
+<kineticLaw metaid="CDMT00012">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<times/>
+<ci> k2 </ci>
+<ci> s3 </ci>
 </apply>
 </math>
 </kineticLaw>
@@ -538,20 +474,16 @@
 </math>
 </kineticLaw>
 </reaction>
-<reaction metaid="re5" id="re5" name="Clearance_C" reversible="false" fast="false">
+<reaction metaid="re1" id="re1" name="Proliferation_Kq" reversible="false" fast="false">
 <annotation>
 <celldesigner:extension>
-<celldesigner:name>Clearance_C</celldesigner:name>
+<celldesigner:name>Proliferation_Kq</celldesigner:name>
 <celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
 <celldesigner:baseReactants>
-<celldesigner:baseReactant species="s6" alias="sa14">
-<celldesigner:linkAnchor position="S"/>
-</celldesigner:baseReactant>
+<celldesigner:baseReactant species="s1" alias="sa8"/>
 </celldesigner:baseReactants>
 <celldesigner:baseProducts>
-<celldesigner:baseProduct species="s2" alias="sa17">
-<celldesigner:linkAnchor position="S"/>
-</celldesigner:baseProduct>
+<celldesigner:baseProduct species="s3" alias="sa1"/>
 </celldesigner:baseProducts>
 <celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">
 <celldesigner:listOfLineDirection>
@@ -562,315 +494,37 @@
 </celldesigner:extension>
 </annotation>
 <listOfReactants>
-<speciesReference metaid="CDMT00021" species="s6">
+<speciesReference metaid="CDMT00005" species="s1">
 <annotation>
 <celldesigner:extension>
-<celldesigner:alias>sa14</celldesigner:alias>
+<celldesigner:alias>sa8</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
 </listOfReactants>
 <listOfProducts>
-<speciesReference metaid="CDMT00022" species="s2">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa17</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfProducts>
-<kineticLaw metaid="CDMT00025">
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<apply>
-<times/>
-<ci> k5 </ci>
-<ci> s6 </ci>
-</apply>
-</math>
-</kineticLaw>
-</reaction>
-<reaction metaid="re6" id="re6" name="Wounding_Kq" reversible="false" fast="false">
-<annotation>
-<celldesigner:extension>
-<celldesigner:name>Wounding_Kq</celldesigner:name>
-<celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
-<celldesigner:baseReactants>
-<celldesigner:baseReactant species="s3" alias="sa1"/>
-</celldesigner:baseReactants>
-<celldesigner:baseProducts>
-<celldesigner:baseProduct species="s2" alias="sa12"/>
-</celldesigner:baseProducts>
-<celldesigner:connectScheme connectPolicy="direct" rectangleIndex="1">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-<celldesigner:lineDirection index="1" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:editPoints>0.3823529411764705,1.3322676295501878E-15</celldesigner:editPoints>
-<celldesigner:line width="1.0" color="ff000000"/>
-<celldesigner:listOfModification>
-<celldesigner:modification type="PHYSICAL_STIMULATION" modifiers="s5" aliases="sa11" targetLineIndex="-1,3" editPoints="0.21539034665161427,-0.3368487397426574 0.9447091025193772,-0.19779554878653527">
-<celldesigner:connectScheme connectPolicy="direct">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-<celldesigner:lineDirection index="1" value="unknown"/>
-<celldesigner:lineDirection index="2" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:line width="1.0" color="ff000000"/>
-</celldesigner:modification>
-</celldesigner:listOfModification>
-</celldesigner:extension>
-</annotation>
-<listOfReactants>
-<speciesReference metaid="CDMT00031" species="s3">
+<speciesReference metaid="CDMT00006" species="s3">
 <annotation>
 <celldesigner:extension>
 <celldesigner:alias>sa1</celldesigner:alias>
 </celldesigner:extension>
 </annotation>
 </speciesReference>
-</listOfReactants>
-<listOfProducts>
-<speciesReference metaid="CDMT00032" species="s2">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa12</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
 </listOfProducts>
-<listOfModifiers>
-<modifierSpeciesReference metaid="CDMT00033" species="s5">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa11</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</modifierSpeciesReference>
-</listOfModifiers>
-<kineticLaw metaid="CDMT00044">
+<kineticLaw metaid="CDMT00015">
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <apply>
 <divide/>
 <apply>
 <times/>
-<ci> D1 </ci>
+<ci> k1 </ci>
 <ci> s3 </ci>
-<ci> s5 </ci>
 </apply>
 <apply>
 <plus/>
-<ci> s5 </ci>
-<ci> D4 </ci>
+<ci> s3 </ci>
+<ci> E1 </ci>
 </apply>
-</apply>
-</math>
-</kineticLaw>
-</reaction>
-<reaction metaid="re7" id="re7" name="Wounding_Kd" reversible="false" fast="false">
-<annotation>
-<celldesigner:extension>
-<celldesigner:name>Wounding_Kd</celldesigner:name>
-<celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
-<celldesigner:baseReactants>
-<celldesigner:baseReactant species="s4" alias="sa2"/>
-</celldesigner:baseReactants>
-<celldesigner:baseProducts>
-<celldesigner:baseProduct species="s2" alias="sa12"/>
-</celldesigner:baseProducts>
-<celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:line width="1.0" color="ff000000"/>
-<celldesigner:listOfModification>
-<celldesigner:modification type="PHYSICAL_STIMULATION" modifiers="s5" aliases="sa11" targetLineIndex="-1,2" editPoints="0.26815598078851766,0.30261782877662713 0.8816269742072889,0.18801965940855814">
-<celldesigner:connectScheme connectPolicy="direct">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-<celldesigner:lineDirection index="1" value="unknown"/>
-<celldesigner:lineDirection index="2" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:line width="1.0" color="ff000000"/>
-</celldesigner:modification>
-</celldesigner:listOfModification>
-</celldesigner:extension>
-</annotation>
-<listOfReactants>
-<speciesReference metaid="CDMT00028" species="s4">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa2</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfReactants>
-<listOfProducts>
-<speciesReference metaid="CDMT00029" species="s2">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa12</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfProducts>
-<listOfModifiers>
-<modifierSpeciesReference metaid="CDMT00030" species="s5">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa11</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</modifierSpeciesReference>
-</listOfModifiers>
-<kineticLaw metaid="CDMT00043">
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<apply>
-<divide/>
-<apply>
-<times/>
-<ci> D2 </ci>
-<ci> s4 </ci>
-<ci> s5 </ci>
-</apply>
-<apply>
-<plus/>
-<ci> s5 </ci>
-<ci> D4 </ci>
-</apply>
-</apply>
-</math>
-</kineticLaw>
-</reaction>
-<reaction metaid="re8" id="re8" name="Wounding_C" reversible="false" fast="false">
-<annotation>
-<celldesigner:extension>
-<celldesigner:name>Wounding_C</celldesigner:name>
-<celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
-<celldesigner:baseReactants>
-<celldesigner:baseReactant species="s6" alias="sa14">
-<celldesigner:linkAnchor position="N"/>
-</celldesigner:baseReactant>
-</celldesigner:baseReactants>
-<celldesigner:baseProducts>
-<celldesigner:baseProduct species="s2" alias="sa17">
-<celldesigner:linkAnchor position="N"/>
-</celldesigner:baseProduct>
-</celldesigner:baseProducts>
-<celldesigner:connectScheme connectPolicy="direct" rectangleIndex="1">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-<celldesigner:lineDirection index="1" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:editPoints>0.2107941403238236,0.011410948342329474</celldesigner:editPoints>
-<celldesigner:line width="1.0" color="ff000000"/>
-<celldesigner:listOfModification>
-<celldesigner:modification type="CATALYSIS" modifiers="s5" aliases="sa11" targetLineIndex="-1,3" editPoints="0.35075685534108736,-0.41989933864875684 0.9996501146019439,-0.3181756967277589">
-<celldesigner:connectScheme connectPolicy="direct">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-<celldesigner:lineDirection index="1" value="unknown"/>
-<celldesigner:lineDirection index="2" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:line width="1.0" color="ff000000"/>
-</celldesigner:modification>
-</celldesigner:listOfModification>
-</celldesigner:extension>
-</annotation>
-<listOfReactants>
-<speciesReference metaid="CDMT00017" species="s6">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa14</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfReactants>
-<listOfProducts>
-<speciesReference metaid="CDMT00018" species="s2">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa17</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfProducts>
-<listOfModifiers>
-<modifierSpeciesReference metaid="CDMT00019" species="s5">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa11</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</modifierSpeciesReference>
-</listOfModifiers>
-<kineticLaw metaid="CDMT00020">
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<apply>
-<divide/>
-<apply>
-<times/>
-<ci> D3 </ci>
-<ci> s6 </ci>
-<ci> s5 </ci>
-</apply>
-<apply>
-<plus/>
-<ci> s5 </ci>
-<ci> D5 </ci>
-</apply>
-</apply>
-</math>
-</kineticLaw>
-</reaction>
-<reaction metaid="re9" id="re9" name="Clearance_W" reversible="false" fast="false">
-<annotation>
-<celldesigner:extension>
-<celldesigner:name>Clearance_W</celldesigner:name>
-<celldesigner:reactionType>STATE_TRANSITION</celldesigner:reactionType>
-<celldesigner:baseReactants>
-<celldesigner:baseReactant species="s5" alias="sa11"/>
-</celldesigner:baseReactants>
-<celldesigner:baseProducts>
-<celldesigner:baseProduct species="s2" alias="sa12"/>
-</celldesigner:baseProducts>
-<celldesigner:connectScheme connectPolicy="direct" rectangleIndex="0">
-<celldesigner:listOfLineDirection>
-<celldesigner:lineDirection index="0" value="unknown"/>
-</celldesigner:listOfLineDirection>
-</celldesigner:connectScheme>
-<celldesigner:line width="1.0" color="ff000000"/>
-</celldesigner:extension>
-</annotation>
-<listOfReactants>
-<speciesReference metaid="CDMT00007" species="s5">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa11</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfReactants>
-<listOfProducts>
-<speciesReference metaid="CDMT00008" species="s2">
-<annotation>
-<celldesigner:extension>
-<celldesigner:alias>sa12</celldesigner:alias>
-</celldesigner:extension>
-</annotation>
-</speciesReference>
-</listOfProducts>
-<kineticLaw metaid="CDMT00009">
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<apply>
-<times/>
-<ci> k6 </ci>
-<ci> s5 </ci>
 </apply>
 </math>
 </kineticLaw>
