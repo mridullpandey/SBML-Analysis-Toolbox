@@ -1,20 +1,14 @@
-def sampleNullSpace( SciPyModel ):
+def uniformNullSpaceSample( SciPyModel ):
     ''' 
         Create a sample of the parameter space as defined 
         by the MinimumValue and MaximumValue vectors.
         
-        Samples are generated randomly in a one-at-a-time
-        approach which does not guarantee good representation
-        of the sample space.
+        Samples are generated using 
 
         To Do
         -----
         1. Add conditional check to inform user if required
            inputs are not specified in SciPyModel.
-           
-        2. Implement a method to divide the shape parameter
-           sample space for better representation of the sample
-           space.
 
         Parameters
         ----------

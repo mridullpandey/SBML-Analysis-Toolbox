@@ -1,6 +1,10 @@
-import libsbml, sys
-
-def autoclean( sbmlfile ):
+def cleanSBMLFile( sbmlfile ):
+    '''
+    This function needs to be rewritten to use the SciPyModel
+    object format.
+    '''
+    import libsbml, sys
+    
     doc = libsbml.readSBMLFromFile( sbmlfile )
 
     # Return errors with SBML model.
@@ -45,4 +49,4 @@ def autoclean( sbmlfile ):
     # Get SBML model from document.
     libsbml.writeSBMLToFile( doc, sbmlfile )
 
-autoclean( sys.argv[1] )
+    return sbmlfile

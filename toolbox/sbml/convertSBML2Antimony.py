@@ -7,7 +7,7 @@
 
 import antimony
 
-def SBML2antimony( filename )
+def convertSBML2Antimony( filename ):
 
     if filename[-3:] == "xml" :
         model_name = filename.replace( filename[-3:], "ant" )

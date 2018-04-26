@@ -1,6 +1,6 @@
 def importSBMLFile( SciPyModel ):
     ''' 
-        Reads an SBML model from a given file and unpacks the
+        Reads an SBML model file and unpacks the
         SBML model into the provided SciPyModel object structure.
         User may specify SBML model file path within SciPyModel
         manually.
@@ -12,12 +12,21 @@ def importSBMLFile( SciPyModel ):
            SBML models imported/exported through Copasi.
            
         2. Write code to inform user of required fields to be
-           filled out.
+           filled out. Should be in the form of:
+           
+           SciPyModel.errorLog()
+           
+           Which prints a list of potential issues in the model
+           for the user to update.
+           
+        3. Implement conditional to reset SciPyModel to initial
+           form if user passes in filled model.
     
         Parameters
         ----------
         SciPyModel : object instance
-            Description needed.
+            
+            Can be called on any SciPyModel object.
         
         Returns
         -------
