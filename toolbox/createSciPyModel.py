@@ -129,6 +129,7 @@ def createSciPyModel():
     class Local:
         def __init__(self):
             self.Data = None
+            self.PercentVary = None
 
     # Class to organize SciPyModel toolbox-specific function information
     class ToolboxFunctions:
